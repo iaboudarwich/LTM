@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catalina Landing — Events Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --gold: #8a6420;
+        --gold-soft: rgba(138, 100, 32, 0.18);
+        --gold-line: rgba(138, 100, 32, 0.35);
+        --bg: #ffffff;
+        --ink: #1a1a1a;
+        --dim: #6b6b6b;
+        --danger: #b3261e;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Barlow Condensed', system-ui, sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .layout {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+      }
+
+      .header {
+        border-bottom: 1px solid var(--gold-line);
+        padding-bottom: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .header__brand {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 500;
+        font-size: 0.85rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0;
+      }
+      .header__title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 500;
+        font-size: 2.4rem;
+        line-height: 1.1;
+        color: var(--ink);
+        margin: 0.4rem 0 0;
+      }
+      .header__sub {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--dim);
+        margin: 0.5rem 0 0;
+      }
+
+      .section {
+        background: #fff;
+        border: 1px solid var(--gold-line);
+        box-shadow: var(--shadow);
+        padding: 1.75rem 1.75rem 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .section__head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .section__title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 500;
+        font-size: 1.35rem;
+        color: var(--gold);
+        margin: 0;
+      }
+      .section__hint {
+        font-size: 0.78rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--dim);
+      }
+
+      form { display: grid; gap: 1rem; }
+      .row { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+      @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 500;
+      }
+
+      input[type='text'],
+      textarea {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid var(--gold-line);
+        border-radius: 0;
+        padding: 0.65rem 0.8rem;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      input[type='text']:focus,
+      textarea:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px var(--gold-soft);
+      }
+      textarea { min-height: 90px; resize: vertical; }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+      }
+
+      button {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-weight: 500;
+        font-size: 0.85rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 0.65rem 1.2rem;
+        border: 1px solid var(--gold);
+        background: var(--gold);
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      button:hover { background: #6e4f19; border-color: #6e4f19; }
+      button[type='button'].secondary {
+        background: transparent;
+        color: var(--gold);
+      }
+      button[type='button'].secondary:hover {
+        background: var(--gold-soft);
+        color: var(--gold);
+      }
+      button.danger {
+        border-color: var(--danger);
+        color: var(--danger);
+        background: transparent;
+      }
+      button.danger:hover { background: var(--danger); color: #fff; }
+      button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      .toast {
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--dim);
+      }
+      .toast--ok    { color: var(--gold); }
+      .toast--err   { color: var(--danger); }
+
+      .events {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .event {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.75rem 1rem;
+        align-items: start;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--gold-line);
+      }
+      .event__name {
+        font-family: 'Playfair Display', serif;
+        font-weight: 500;
+        font-size: 1.2rem;
+        color: var(--ink);
+        margin: 0;
+      }
+      .event__meta {
+        font-size: 0.82rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0.25rem 0 0;
+      }
+      .event__desc {
+        font-size: 0.95rem;
+        line-height: 1.45;
+        color: var(--dim);
+        margin: 0.45rem 0 0;
+      }
+      .event__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+      }
+      .event__buttons button { padding: 0.45rem 0.9rem; font-size: 0.75rem; }
+
+      .empty {
+        font-style: italic;
+        color: var(--dim);
+        padding: 1rem 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="layout">
+      <header class="header">
+        <p class="header__brand">Catalina Landing</p>
+        <h1 class="header__title">Events</h1>
+        <p class="header__sub">Local network admin &middot; no login required</p>
+      </header>
+
+      <section class="section" aria-labelledby="form-title">
+        <div class="section__head">
+          <h2 class="section__title" id="form-title">Add Event</h2>
+          <span class="section__hint" id="form-mode">Creating</span>
+        </div>
+
+        <form id="event-form" autocomplete="off">
+          <input type="hidden" id="f-id" />
+
+          <label>
+            Event Name
+            <input type="text" id="f-name" maxlength="200" required />
+          </label>
+
+          <div class="row">
+            <label>
+              Date / Frequency
+              <input type="text" id="f-date" maxlength="120" placeholder="e.g. Every Friday, Monthly, Aug 14" />
+            </label>
+            <label>
+              Time
+              <input type="text" id="f-time" maxlength="60" placeholder="e.g. 6:00 PM" />
+            </label>
+          </div>
+
+          <label>
+            Location
+            <input type="text" id="f-location" maxlength="200" placeholder="e.g. 330 Lobby" />
+          </label>
+
+          <label>
+            Description
+            <textarea id="f-description" maxlength="800" placeholder="Short description shown on the signage"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit" id="f-submit">Save Event</button>
+            <button type="button" class="secondary" id="f-cancel" hidden>Cancel</button>
+            <span class="toast" id="f-toast"></span>
+          </div>
+        </form>
+      </section>
+
+      <section class="section" aria-labelledby="list-title">
+        <div class="section__head">
+          <h2 class="section__title" id="list-title">Existing Events</h2>
+          <span class="section__hint" id="list-count">0 total</span>
+        </div>
+        <ul class="events" id="event-list"></ul>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const form     = document.getElementById('event-form');
+        const idEl     = document.getElementById('f-id');
+        const nameEl   = document.getElementById('f-name');
+        const dateEl   = document.getElementById('f-date');
+        const timeEl   = document.getElementById('f-time');
+        const descEl   = document.getElementById('f-description');
+        const locEl    = document.getElementById('f-location');
+        const submitBtn= document.getElementById('f-submit');
+        const cancelBtn= document.getElementById('f-cancel');
+        const modeEl   = document.getElementById('form-mode');
+        const toastEl  = document.getElementById('f-toast');
+        const listEl   = document.getElementById('event-list');
+        const countEl  = document.getElementById('list-count');
+        const titleEl  = document.getElementById('form-title');
+
+        function flash(msg, kind) {
+          toastEl.textContent = msg || '';
+          toastEl.className = 'toast' + (kind ? ' toast--' + kind : '');
+          if (msg) setTimeout(() => { toastEl.textContent = ''; toastEl.className = 'toast'; }, 3000);
+        }
+
+        function resetForm() {
+          form.reset();
+          idEl.value = '';
+          modeEl.textContent = 'Creating';
+          titleEl.textContent = 'Add Event';
+          submitBtn.textContent = 'Save Event';
+          cancelBtn.hidden = true;
+          nameEl.focus();
+        }
+
+        function fillForm(ev) {
+          idEl.value = ev.id || '';
+          nameEl.value = ev.name || '';
+          dateEl.value = ev.date || '';
+          timeEl.value = ev.time || '';
+          locEl.value  = ev.location || '';
+          descEl.value = ev.description || '';
+          modeEl.textContent = 'Editing';
+          titleEl.textContent = 'Edit Event';
+          submitBtn.textContent = 'Update Event';
+          cancelBtn.hidden = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          nameEl.focus();
+        }
+
+        function makeRow(ev) {
+          const li = document.createElement('li');
+          li.className = 'event';
+
+          const main = document.createElement('div');
+          const h = document.createElement('h3');
+          h.className = 'event__name';
+          h.textContent = ev.name || '(untitled)';
+          main.appendChild(h);
+
+          const metaParts = [];
+          if (ev.date) metaParts.push(ev.date);
+          if (ev.time) metaParts.push(ev.time);
+          if (ev.location) metaParts.push(ev.location);
+          if (metaParts.length) {
+            const meta = document.createElement('p');
+            meta.className = 'event__meta';
+            meta.textContent = metaParts.join(' · ');
+            main.appendChild(meta);
+          }
+          if (ev.description) {
+            const desc = document.createElement('p');
+            desc.className = 'event__desc';
+            desc.textContent = ev.description;
+            main.appendChild(desc);
+          }
+          li.appendChild(main);
+
+          const btns = document.createElement('div');
+          btns.className = 'event__buttons';
+          const edit = document.createElement('button');
+          edit.type = 'button';
+          edit.className = 'secondary';
+          edit.textContent = 'Edit';
+          edit.addEventListener('click', () => fillForm(ev));
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.className = 'danger';
+          del.textContent = 'Delete';
+          del.addEventListener('click', () => removeEvent(ev));
+          btns.appendChild(edit);
+          btns.appendChild(del);
+          li.appendChild(btns);
+
+          return li;
+        }
+
+        function render(events) {
+          listEl.innerHTML = '';
+          countEl.textContent = events.length + ' total';
+          if (!events.length) {
+            const li = document.createElement('li');
+            li.className = 'empty';
+            li.textContent = 'No events yet. Add one above.';
+            listEl.appendChild(li);
+            return;
+          }
+          events.forEach((ev) => listEl.appendChild(makeRow(ev)));
+        }
+
+        async function load() {
+          try {
+            const res = await fetch('/api/events', { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            render(await res.json());
+          } catch (err) {
+            console.error(err);
+            flash('Failed to load events', 'err');
+          }
+        }
+
+        async function save(payload, id) {
+          const url = id ? '/api/events/' + encodeURIComponent(id) : '/api/events';
+          const method = id ? 'PUT' : 'POST';
+          const res = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body.error || ('HTTP ' + res.status));
+          }
+          return res.json();
+        }
+
+        async function removeEvent(ev) {
+          if (!confirm('Delete "' + (ev.name || 'this event') + '"?')) return;
+          try {
+            const res = await fetch('/api/events/' + encodeURIComponent(ev.id), { method: 'DELETE' });
+            if (!res.ok && res.status !== 204) throw new Error('HTTP ' + res.status);
+            flash('Deleted', 'ok');
+            if (idEl.value === ev.id) resetForm();
+            load();
+          } catch (err) {
+            console.error(err);
+            flash('Delete failed', 'err');
+          }
+        }
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            name: nameEl.value,
+            date: dateEl.value,
+            time: timeEl.value,
+            location: locEl.value,
+            description: descEl.value,
+          };
+          if (!payload.name.trim()) {
+            flash('Event name is required', 'err');
+            nameEl.focus();
+            return;
+          }
+          submitBtn.disabled = true;
+          try {
+            await save(payload, idEl.value || null);
+            flash(idEl.value ? 'Updated' : 'Saved', 'ok');
+            resetForm();
+            load();
+          } catch (err) {
+            flash('Save failed: ' + err.message, 'err');
+          } finally {
+            submitBtn.disabled = false;
+          }
+        });
+
+        cancelBtn.addEventListener('click', () => { resetForm(); flash(''); });
+
+        load();
+      })();
+    </script>
+  </body>
+</html>
