@@ -14,20 +14,19 @@
 
     <style>
       :root {
-        --gold: #c8a96e;
-        --gold-soft: rgba(200, 169, 110, 0.5);
-        --gold-faint: rgba(200, 169, 110, 0.18);
+        --gold: #c8a456;
+        --gold-soft: rgba(200, 164, 86, 0.55);
+        --gold-faint: rgba(200, 164, 86, 0.22);
+        --gold-line: rgba(200, 164, 86, 0.28);
         --white: #f4f0ea;
-        --dim: rgba(244, 240, 234, 0.55);
-        --dim2: rgba(244, 240, 234, 0.35);
-        --dark: #080c10;
-        --glass: rgba(8, 12, 16, 0.55);
-        --glass-strong: rgba(8, 12, 16, 0.72);
-        --red: #cc0000;
-        --up: #6fdc8c;
-        --down: #ff7a7a;
+        --dim:  rgba(244, 240, 234, 0.62);
+        --dim2: rgba(244, 240, 234, 0.4);
+        --bg:    #0d0f0e;
+        --panel: rgba(10, 12, 11, 0.78);
+        --card:  rgba(0, 0, 0, 0.42);
         --serif: 'Playfair Display', Georgia, serif;
-        --sans: 'Barlow Condensed', 'Helvetica Neue', sans-serif;
+        --sans:  'Barlow Condensed', 'Helvetica Neue', sans-serif;
+        --radius: 4px;
       }
 
       *, *::before, *::after { box-sizing: border-box; }
@@ -39,7 +38,7 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background: var(--dark);
+        background: var(--bg);
         color: var(--white);
         font-family: var(--sans);
         font-weight: 300;
@@ -49,11 +48,8 @@
       }
 
       .keep-alive {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 1px;
-        height: 1px;
+        position: fixed; left: 0; top: 0;
+        width: 1px; height: 1px;
         background: transparent;
         pointer-events: none;
         z-index: -1;
@@ -67,24 +63,14 @@
         100% { transform: translate(0, 0); }
       }
 
-      .stage {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-      }
+      .stage { position: fixed; inset: 0; overflow: hidden; }
 
-      /* ---------- Slideshow + Ken Burns ---------- */
-      .slideshow {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        background: var(--dark);
-      }
+      /* ---------- Slideshow ---------- */
+      .slideshow { position: absolute; inset: 0; z-index: 0; background: var(--bg); }
       .slideshow__slide {
-        position: absolute;
-        inset: 0;
+        position: absolute; inset: 0;
         background-size: cover;
-        background-position: center center;
+        background-position: center;
         background-repeat: no-repeat;
         opacity: 0;
         transform: scale(1);
@@ -95,45 +81,29 @@
       .slideshow__slide.is-active { opacity: 1; }
       .slideshow__slide.kb-in  { animation: kb-in  12s ease-out forwards; }
       .slideshow__slide.kb-out { animation: kb-out 12s ease-out forwards; }
-      @keyframes kb-in {
-        from { transform: scale(1.00); }
-        to   { transform: scale(1.08); }
-      }
-      @keyframes kb-out {
-        from { transform: scale(1.08); }
-        to   { transform: scale(1.00); }
-      }
+      @keyframes kb-in  { from { transform: scale(1.00); } to { transform: scale(1.08); } }
+      @keyframes kb-out { from { transform: scale(1.08); } to { transform: scale(1.00); } }
 
       /* ---------- Vignette ---------- */
       .vignette {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
+        position: absolute; inset: 0; z-index: 1;
         pointer-events: none;
         background:
-          radial-gradient(
-            ellipse at center,
-            rgba(8,12,16,0)    35%,
-            rgba(8,12,16,0.45) 75%,
-            rgba(8,12,16,0.92) 100%
-          ),
-          linear-gradient(
-            180deg,
-            rgba(8,12,16,0.55) 0%,
-            rgba(8,12,16,0.10) 22%,
-            rgba(8,12,16,0.10) 70%,
-            rgba(8,12,16,0.78) 100%
-          );
+          radial-gradient(ellipse at center,
+            rgba(10,12,11,0)    35%,
+            rgba(10,12,11,0.45) 75%,
+            rgba(10,12,11,0.92) 100%),
+          linear-gradient(180deg,
+            rgba(10,12,11,0.55) 0%,
+            rgba(10,12,11,0.10) 22%,
+            rgba(10,12,11,0.10) 70%,
+            rgba(10,12,11,0.78) 100%);
         transition: opacity 1.2s ease-in-out;
       }
       body.mode-property .vignette { opacity: 0.12; }
 
       /* ---------- HUD ---------- */
-      .hud {
-        position: absolute;
-        z-index: 10;
-        line-height: 1.05;
-      }
+      .hud { position: absolute; z-index: 10; line-height: 1.05; }
       .hud--logo  { top: 2.75rem; left: 3rem; }
       .hud--clock { top: 2.75rem; right: 3rem; text-align: right; }
 
@@ -149,8 +119,8 @@
       }
       .logo__address {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.72rem;
+        font-weight: 300;
+        font-size: 0.625rem;   /* 10px */
         letter-spacing: 0.4em;
         text-transform: uppercase;
         color: var(--gold);
@@ -178,8 +148,8 @@
       }
       .clock__date {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.78rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.4em;
         text-transform: uppercase;
         color: var(--gold);
@@ -189,14 +159,12 @@
 
       /* ---------- Panels ---------- */
       .panels {
-        position: absolute;
-        inset: 0;
-        z-index: 5;
+        position: absolute; inset: 0; z-index: 5;
         pointer-events: none;
       }
       .panel {
-        position: absolute;
-        inset: 0;
+        position: absolute; inset: 0;
+        background: var(--panel);
         opacity: 0;
         visibility: hidden;
         transition: opacity 1s ease-in-out, visibility 0s linear 1s;
@@ -206,6 +174,8 @@
         visibility: visible;
         transition: opacity 1s ease-in-out, visibility 0s linear 0s;
       }
+      /* Property mode keeps the hero slideshow visible; skip the dark overlay. */
+      .panel--property { background: transparent; }
 
       /* Stagger reveal */
       [data-stagger] {
@@ -215,23 +185,17 @@
                     transform 0.7s cubic-bezier(.2,.65,.25,1);
         transition-delay: calc(var(--i, 0) * 100ms);
       }
-      .panel.is-revealed [data-stagger] {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      .panel.is-revealed [data-stagger] { opacity: 1; transform: translateY(0); }
       [data-stagger-scale] {
         opacity: 0;
-        transform: scale(0.96);
+        transform: scale(0.97);
         transition: opacity 0.7s cubic-bezier(.2,.65,.25,1),
                     transform 0.7s cubic-bezier(.2,.65,.25,1);
         transition-delay: calc(var(--i, 0) * 80ms);
       }
-      .panel.is-revealed [data-stagger-scale] {
-        opacity: 1;
-        transform: scale(1);
-      }
+      .panel.is-revealed [data-stagger-scale] { opacity: 1; transform: scale(1); }
 
-      /* ---------- Section eyebrow with side rules ---------- */
+      /* ---------- Section eyebrow ---------- */
       .eyebrow {
         display: flex;
         align-items: center;
@@ -239,8 +203,8 @@
         gap: 1.25rem;
         margin: 0 auto;
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.72rem;
+        font-weight: 300;
+        font-size: 0.8125rem;  /* 13px */
         letter-spacing: 0.5em;
         text-transform: uppercase;
         color: var(--gold);
@@ -250,41 +214,35 @@
         flex: 1;
         max-width: 220px;
         height: 1px;
-        background: linear-gradient(
-          90deg,
-          rgba(200,169,110,0) 0%,
+        background: linear-gradient(90deg,
+          rgba(200,164,86,0) 0%,
           var(--gold-soft) 50%,
-          rgba(200,169,110,0) 100%
-        );
+          rgba(200,164,86,0) 100%);
       }
 
       /* ---------- Weather panel ---------- */
       .panel--weather {
-        padding: 7.5rem 4rem 7rem;
+        padding: 6.5rem 4rem 5.5rem;
         display: grid;
-        grid-template-columns: 1.05fr 1fr;
-        grid-template-rows: 1fr auto;
-        gap: 2.5rem 3rem;
-        align-items: center;
+        grid-template-columns: 1fr 1.15fr;
+        grid-template-rows: auto 1fr;
+        gap: 2rem 3.5rem;
+        align-items: stretch;
       }
-
       .weather__hero {
+        grid-column: 1;
+        grid-row: 1 / 3;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        justify-content: center;
         gap: 0.5rem;
-      }
-      .weather__icon {
-        font-size: 5rem;
-        line-height: 1;
-        margin-bottom: 0.5rem;
-        filter: drop-shadow(0 4px 18px rgba(0,0,0,0.55));
       }
       .weather__temp {
         font-family: var(--serif);
         font-weight: 300;
-        font-size: 7.5rem;
-        line-height: 0.92;
+        font-size: 8.5rem;     /* 136px */
+        line-height: 0.9;
         letter-spacing: -0.03em;
         color: var(--white);
         margin: 0;
@@ -292,49 +250,47 @@
         text-shadow: 0 4px 28px rgba(0,0,0,0.55);
       }
       .weather__unit {
-        font-size: 2.4rem;
+        font-size: 3rem;
         color: var(--gold);
         vertical-align: super;
-        margin-left: 0.35rem;
+        margin-left: 0.4rem;
         letter-spacing: 0;
       }
       .weather__desc {
         font-family: var(--sans);
         font-weight: 400;
-        font-size: 1rem;
-        letter-spacing: 0.5em;
+        font-size: 2rem;       /* 32px */
+        letter-spacing: 0.24em;
         text-transform: uppercase;
         color: var(--gold);
-        margin: 0.75rem 0 0;
+        margin: 1rem 0 0;
+        line-height: 1;
       }
 
       .weather__pills {
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
-        align-self: stretch;
-        justify-content: center;
-        max-width: 460px;
-        justify-self: end;
-        width: 100%;
+        grid-column: 2;
+        grid-row: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
       }
       .pill {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.95rem 1.25rem;
-        background: rgba(8,12,16,0.5);
-        border-left: 2px solid var(--gold);
-        border-top: 1px solid rgba(200,169,110,0.18);
-        border-right: 1px solid rgba(200,169,110,0.18);
-        border-bottom: 1px solid rgba(200,169,110,0.18);
-        backdrop-filter: blur(14px) saturate(140%);
-        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 1rem 1.2rem;
+        background: var(--card);
+        border: 1px solid var(--gold-line);
+        border-left: 3px solid var(--gold);
+        border-radius: var(--radius);
+        backdrop-filter: blur(10px) saturate(140%);
+        -webkit-backdrop-filter: blur(10px) saturate(140%);
       }
       .pill__label {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.78rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.36em;
         text-transform: uppercase;
         color: var(--gold);
@@ -342,54 +298,75 @@
       .pill__value {
         font-family: var(--serif);
         font-weight: 400;
-        font-size: 1.35rem;
+        font-size: 2rem;       /* 32px */
         color: var(--white);
         font-variant-numeric: tabular-nums;
+        line-height: 1;
       }
 
       .weather__forecast {
-        grid-column: 1 / -1;
+        grid-column: 2;
+        grid-row: 2;
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 1rem;
+        gap: 0.85rem;
+        align-content: end;
       }
       .forecast {
-        background: rgba(8,12,16,0.55);
-        border: 1px solid rgba(200,169,110,0.22);
-        padding: 1.1rem 1rem;
+        background: var(--card);
+        border: 1px solid var(--gold-line);
+        border-radius: var(--radius);
+        padding: 1rem 0.95rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 0.45rem;
-        transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
-      }
-      .forecast:hover {
-        border-color: var(--gold);
-        box-shadow: 0 0 24px rgba(200,169,110,0.18), inset 0 0 0 1px rgba(200,169,110,0.4);
+        align-items: flex-start;
+        gap: 0.55rem;
       }
       .forecast__day {
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.78rem;
+        font-weight: 400;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.4em;
         text-transform: uppercase;
         color: var(--gold);
       }
-      .forecast__icon { font-size: 2rem; line-height: 1; }
+      .forecast__cond {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 0.8125rem;  /* 13px */
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--dim);
+        line-height: 1;
+      }
+      .forecast__bar {
+        position: relative;
+        width: 100%;
+        height: 3px;
+        background: rgba(200, 164, 86, 0.14);
+        border-radius: 2px;
+        margin: 0.15rem 0 0.1rem;
+      }
+      .forecast__bar-fill {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background: var(--gold);
+        border-radius: 2px;
+      }
       .forecast__temps {
         font-family: var(--serif);
-        font-size: 1.15rem;
+        font-weight: 400;
+        font-size: 1.25rem;    /* 20px */
         color: var(--white);
         font-variant-numeric: tabular-nums;
+        line-height: 1;
       }
-      .forecast__low {
-        color: var(--dim);
-        margin-left: 0.5rem;
-      }
+      .forecast__low { color: var(--dim); margin-left: 0.4rem; }
 
       /* ---------- Directory panel ---------- */
       .panel--directory {
-        padding: 7rem 4rem 6rem;
+        padding: 6.5rem 4rem 5.5rem;
         display: flex;
         flex-direction: column;
         gap: 1.75rem;
@@ -404,27 +381,17 @@
       }
       .building {
         position: relative;
-        background: rgba(8,12,16,0.55);
-        border: 1px solid rgba(200,169,110,0.28);
-        backdrop-filter: blur(14px) saturate(140%);
-        -webkit-backdrop-filter: blur(14px) saturate(140%);
-        padding: 1.6rem 1.9rem;
+        background: var(--card);
+        border: 1px solid var(--gold-line);
+        border-left: 3px solid var(--gold);
+        border-radius: var(--radius);
+        backdrop-filter: blur(10px) saturate(140%);
+        -webkit-backdrop-filter: blur(10px) saturate(140%);
+        padding: 1.9rem 2.15rem;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.1rem;
         overflow: hidden;
-      }
-      .building::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          rgba(200,169,110,0) 0%,
-          rgba(200,169,110,0.85) 50%,
-          rgba(200,169,110,0) 100%
-        );
       }
       .building__watermark {
         position: absolute;
@@ -434,7 +401,7 @@
         font-weight: 600;
         font-size: 13rem;
         line-height: 0.8;
-        color: rgba(200,169,110,0.07);
+        color: rgba(200, 164, 86, 0.06);
         pointer-events: none;
         user-select: none;
         letter-spacing: -0.04em;
@@ -447,17 +414,16 @@
       }
       .building__number {
         font-family: var(--serif);
-        font-weight: 600;
-        font-size: 4rem;
+        font-weight: 400;
+        font-size: 2.375rem;   /* 38px */
         line-height: 1;
         color: var(--gold);
         margin: 0;
-        letter-spacing: -0.01em;
       }
       .building__address {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.72rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.4em;
         text-transform: uppercase;
         color: var(--dim);
@@ -465,50 +431,45 @@
       .tenants {
         list-style: none;
         margin: 0;
-        padding: 0;
+        padding: 0.85rem 0 0;
         display: flex;
         flex-direction: column;
-        gap: 0.55rem;
+        gap: 0.85rem;
+        border-top: 1px solid var(--gold-faint);
         position: relative;
-        border-top: 1px solid rgba(200,169,110,0.18);
-        padding-top: 1rem;
       }
       .tenant {
         display: flex;
         align-items: baseline;
-        gap: 0.6rem;
+        justify-content: space-between;
+        gap: 1rem;
       }
       .tenant__name {
-        font-family: var(--serif);
+        font-family: var(--sans);
         font-weight: 400;
-        font-size: 1.1rem;
+        font-size: 1.25rem;    /* 20px */
+        line-height: 1.15;
         color: var(--white);
-        white-space: nowrap;
       }
       .tenant--available .tenant__name {
         color: var(--dim);
         font-style: italic;
-      }
-      .tenant__leader {
-        flex: 1;
-        height: 0;
-        border-bottom: 1.5px dotted rgba(200,169,110,0.45);
-        transform: translateY(-0.2em);
+        font-weight: 300;
       }
       .tenant__floor {
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.78rem;
+        font-weight: 300;
+        font-size: 0.8125rem;  /* 13px */
         letter-spacing: 0.32em;
         text-transform: uppercase;
         color: var(--gold);
         white-space: nowrap;
+        text-align: right;
       }
-
       .directory__footer {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.85rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.45em;
         text-transform: uppercase;
         color: var(--gold);
@@ -526,11 +487,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 7rem 4rem 6rem;
+        padding: 6.5rem 4rem 5.5rem;
         gap: 1.75rem;
       }
-
-      /* Coming-soon splash (shown when events list is empty) */
       .events__splash {
         text-align: center;
         margin: 0;
@@ -548,8 +507,8 @@
       }
       .events__eyebrow {
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.78rem;
+        font-weight: 400;
+        font-size: 0.8125rem;  /* 13px */
         letter-spacing: 0.5em;
         text-transform: uppercase;
         color: var(--gold);
@@ -566,16 +525,15 @@
       }
       .events__subtitle {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.95rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.45em;
         text-transform: uppercase;
         color: var(--gold);
         margin: 1rem 0 0;
       }
 
-      /* Populated events list */
-      .panel--events.has-events { padding: 6rem 4rem 5rem; }
+      .panel--events.has-events { padding: 5.5rem 4rem 5rem; }
       .panel--events.has-events .events__splash { display: none; }
       .panel--events:not(.has-events) .events__list-wrap { display: none; }
 
@@ -595,14 +553,15 @@
       .events__list[data-count="1"] { grid-template-columns: minmax(0, 720px); justify-content: center; }
       .events__list[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .events__list[data-count="3"],
-      .events__list[data-count="4"] {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .events__list[data-count="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .event-card {
-        background: rgba(8, 12, 16, 0.55);
-        border: 1px solid rgba(200, 169, 110, 0.28);
-        backdrop-filter: blur(14px) saturate(140%);
-        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        background: var(--card);
+        border: 1px solid var(--gold-line);
+        border-left: 3px solid var(--gold);
+        border-radius: var(--radius);
+        backdrop-filter: blur(10px) saturate(140%);
+        -webkit-backdrop-filter: blur(10px) saturate(140%);
         padding: 1.4rem 1.6rem;
         display: flex;
         flex-direction: column;
@@ -610,51 +569,57 @@
         position: relative;
         overflow: hidden;
       }
-      .event-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        bottom: 0;
-        width: 2px;
-        background: var(--gold);
-      }
-      .event-card__meta {
+      .event-card__badge {
+        align-self: flex-start;
+        display: inline-block;
+        padding: 3px 9px 2px;
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.78rem;
-        letter-spacing: 0.34em;
+        font-weight: 400;
+        font-size: 0.625rem;   /* 10px */
+        letter-spacing: 0.36em;
         text-transform: uppercase;
         color: var(--gold);
+        border: 1px solid var(--gold);
+        border-radius: 2px;
+        line-height: 1;
+      }
+      .event-card__date {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 1.0625rem;  /* 17px */
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--white);
         margin: 0;
       }
       .event-card__name {
         font-family: var(--serif);
-        font-weight: 500;
-        font-size: 1.55rem;
+        font-weight: 400;
+        font-size: 1.375rem;   /* 22px */
         line-height: 1.2;
         color: var(--white);
         margin: 0;
       }
-      .event-card__location {
-        font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.85rem;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: var(--dim);
-        margin: 0;
-      }
       .event-card__desc {
-        font-family: var(--serif);
-        font-weight: 400;
-        font-size: 0.98rem;
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 0.8125rem;  /* 13px */
         line-height: 1.45;
-        color: rgba(244, 240, 234, 0.78);
+        color: var(--dim);
         margin: 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+      }
+      .event-card__location {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0;
       }
 
       /* ---------- Property panel ---------- */
@@ -691,8 +656,8 @@
       }
       .property__subtitle {
         font-family: var(--sans);
-        font-weight: 400;
-        font-size: 0.95rem;
+        font-weight: 300;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.45em;
         text-transform: uppercase;
         color: var(--gold);
@@ -712,15 +677,16 @@
       }
       .tabs__item {
         font-family: var(--sans);
-        font-weight: 500;
-        font-size: 0.85rem;
+        font-weight: 400;
+        font-size: 0.6875rem;  /* 11px */
         letter-spacing: 0.36em;
         text-transform: uppercase;
-        color: rgba(244,240,234,0.45);
+        color: rgba(244, 240, 234, 0.5);
         position: relative;
-        padding-bottom: 0.55rem;
+        padding: 0 0 0.55rem;
         background: transparent;
         border: 0;
+        border-radius: 0;
         cursor: pointer;
         transition: color 0.4s ease;
       }
@@ -742,21 +708,18 @@
         left: 0; right: 0; bottom: 0;
         height: 2px;
         z-index: 10;
-        background: rgba(200,169,110,0.12);
+        background: rgba(200, 164, 86, 0.12);
         overflow: hidden;
       }
       .progress__fill {
         height: 100%;
         width: 0%;
-        background: linear-gradient(
-          90deg,
-          rgba(200,169,110,0.4) 0%,
+        background: linear-gradient(90deg,
+          rgba(200, 164, 86, 0.4) 0%,
           var(--gold) 50%,
-          rgba(200,169,110,0.4) 100%
-        );
-        box-shadow: 0 0 12px rgba(200,169,110,0.55);
+          rgba(200, 164, 86, 0.4) 100%);
+        box-shadow: 0 0 12px rgba(200, 164, 86, 0.55);
       }
-
     </style>
   </head>
 
@@ -784,7 +747,6 @@
         <!-- Weather -->
         <div class="panel panel--weather" data-mode="weather">
           <div class="weather__hero" data-stagger style="--i:0">
-            <div class="weather__icon" id="wx-icon">⛅</div>
             <h2 class="weather__temp">
               <span id="wx-temp">--</span><span class="weather__unit">°F</span>
             </h2>
@@ -832,21 +794,9 @@
                 <span class="building__address">Golden Shore</span>
               </div>
               <ul class="tenants">
-                <li class="tenant">
-                  <span class="tenant__name">TI Capital</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Penthouse</span>
-                </li>
-                <li class="tenant">
-                  <span class="tenant__name">NRE Commercial</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floor 4</span>
-                </li>
-                <li class="tenant tenant--available">
-                  <span class="tenant__name">Available Suites</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floors 1&ndash;3</span>
-                </li>
+                <li class="tenant"><span class="tenant__name">TI Capital</span><span class="tenant__floor">Penthouse</span></li>
+                <li class="tenant"><span class="tenant__name">NRE Commercial</span><span class="tenant__floor">Floor 4</span></li>
+                <li class="tenant tenant--available"><span class="tenant__name">Available Suites</span><span class="tenant__floor">Floors 1&ndash;3</span></li>
               </ul>
             </article>
 
@@ -857,16 +807,8 @@
                 <span class="building__address">Golden Shore</span>
               </div>
               <ul class="tenants">
-                <li class="tenant">
-                  <span class="tenant__name">Catalina Express HQ</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floor 2</span>
-                </li>
-                <li class="tenant tenant--available">
-                  <span class="tenant__name">Available Suites</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floors 1, 3&ndash;5</span>
-                </li>
+                <li class="tenant"><span class="tenant__name">Catalina Express HQ</span><span class="tenant__floor">Floor 2</span></li>
+                <li class="tenant tenant--available"><span class="tenant__name">Available Suites</span><span class="tenant__floor">Floors 1, 3&ndash;5</span></li>
               </ul>
             </article>
 
@@ -877,21 +819,9 @@
                 <span class="building__address">Golden Shore</span>
               </div>
               <ul class="tenants">
-                <li class="tenant">
-                  <span class="tenant__name">Lobby &amp; Conference Center</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Ground</span>
-                </li>
-                <li class="tenant tenant--available">
-                  <span class="tenant__name">Available Suites</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floors 2&ndash;5</span>
-                </li>
-                <li class="tenant">
-                  <span class="tenant__name">SeaLevel Creative Space</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Lower Level</span>
-                </li>
+                <li class="tenant"><span class="tenant__name">Lobby &amp; Conference Center</span><span class="tenant__floor">Ground</span></li>
+                <li class="tenant tenant--available"><span class="tenant__name">Available Suites</span><span class="tenant__floor">Floors 2&ndash;5</span></li>
+                <li class="tenant"><span class="tenant__name">SeaLevel Creative Space</span><span class="tenant__floor">Lower Level</span></li>
               </ul>
             </article>
 
@@ -902,21 +832,9 @@
                 <span class="building__address">Golden Shore</span>
               </div>
               <ul class="tenants">
-                <li class="tenant">
-                  <span class="tenant__name">Waterfront Restaurant</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Ground</span>
-                </li>
-                <li class="tenant tenant--available">
-                  <span class="tenant__name">Available Suites</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Floors 2&ndash;5</span>
-                </li>
-                <li class="tenant">
-                  <span class="tenant__name">Marina Deck</span>
-                  <span class="tenant__leader" aria-hidden="true"></span>
-                  <span class="tenant__floor">Level P</span>
-                </li>
+                <li class="tenant"><span class="tenant__name">Waterfront Restaurant</span><span class="tenant__floor">Ground</span></li>
+                <li class="tenant tenant--available"><span class="tenant__name">Available Suites</span><span class="tenant__floor">Floors 2&ndash;5</span></li>
+                <li class="tenant"><span class="tenant__name">Marina Deck</span><span class="tenant__floor">Level P</span></li>
               </ul>
             </article>
           </div>
@@ -1004,7 +922,7 @@
         ];
         let idx = 0;
         let active = 0;
-        let direction = 0; // alternate kb-in / kb-out
+        let direction = 0;
 
         function showSlide(url, layer) {
           const img = new Image();
@@ -1012,7 +930,6 @@
             const slide = slides[layer];
             slide.style.backgroundImage = 'url("' + url + '")';
             slide.classList.remove('kb-in', 'kb-out');
-            // force reflow so the animation restarts
             void slide.offsetWidth;
             slide.classList.add(direction % 2 === 0 ? 'kb-in' : 'kb-out');
             slide.classList.add('is-active');
@@ -1022,14 +939,12 @@
           img.onerror = () => advance();
           img.src = url;
         }
-
         function advance() {
           const url = URLS[idx % URLS.length];
           idx++;
           active = 1 - active;
           showSlide(url, active);
         }
-
         if (URLS.length > 0) {
           showSlide(URLS[0], active);
           idx = 1;
@@ -1068,8 +983,6 @@
           MODES.forEach((m) =>
             document.body.classList.toggle('mode-' + m.id, m.id === id)
           );
-          // Trigger stagger reveal on the next frame so the
-          // is-active opacity transition starts first.
           requestAnimationFrame(() => {
             const active = document.querySelector('.panel.is-active');
             if (active) active.classList.add('is-revealed');
@@ -1083,9 +996,7 @@
           const elapsed = ts - modeStart;
           const pct = Math.min(100, (elapsed / modeDuration) * 100);
           fill.style.width = pct + '%';
-          if (elapsed < modeDuration) {
-            rafId = requestAnimationFrame(animateProgress);
-          }
+          if (elapsed < modeDuration) rafId = requestAnimationFrame(animateProgress);
         }
 
         function startMode(index) {
@@ -1138,39 +1049,27 @@
           secEl.textContent = ':' + s;
           dateEl.textContent = dateFmt.format(now);
         }
-
         tick();
         setInterval(tick, 1000);
       })();
 
       // ============================================================
-      //   WEATHER
+      //   WEATHER (text-only conditions; forecast bar = relative range)
       // ============================================================
       (function () {
         const REFRESH_MS = 10 * 60 * 1000;
         const COUNT_MS = 1200;
 
         const CODE_MAP = {
-          0:  { icon: '☀️',  desc: 'Clear' },
-          1:  { icon: '🌤️',  desc: 'Mostly Clear' },
-          2:  { icon: '⛅',  desc: 'Partly Cloudy' },
-          3:  { icon: '☁️',  desc: 'Overcast' },
-          45: { icon: '🌫️',  desc: 'Foggy' },
-          48: { icon: '🌫️',  desc: 'Foggy' },
-          51: { icon: '🌦️',  desc: 'Drizzle' },
-          53: { icon: '🌦️',  desc: 'Drizzle' },
-          55: { icon: '🌦️',  desc: 'Drizzle' },
-          61: { icon: '🌧️',  desc: 'Rain' },
-          63: { icon: '🌧️',  desc: 'Rain' },
-          65: { icon: '🌧️',  desc: 'Rain' },
-          80: { icon: '🌦️',  desc: 'Showers' },
-          81: { icon: '🌦️',  desc: 'Showers' },
-          82: { icon: '🌦️',  desc: 'Showers' },
-          95: { icon: '⛈️',  desc: 'Thunderstorm' },
-          96: { icon: '⛈️',  desc: 'Thunderstorm' },
-          99: { icon: '⛈️',  desc: 'Thunderstorm' },
+          0:  'Clear',       1:  'Mostly Clear', 2:  'Partly Cloudy', 3: 'Overcast',
+          45: 'Foggy',       48: 'Foggy',
+          51: 'Drizzle',     53: 'Drizzle',      55: 'Drizzle',
+          61: 'Rain',        63: 'Rain',         65: 'Rain',
+          71: 'Snow',        73: 'Snow',         75: 'Snow',
+          80: 'Showers',     81: 'Showers',      82: 'Showers',
+          95: 'Thunder',     96: 'Thunder',      99: 'Thunder',
         };
-        const lookup = (c) => CODE_MAP[c] || { icon: '🌡️', desc: '—' };
+        const desc  = (c) => CODE_MAP[c] || '—';
         const round = (n) => (n == null || Number.isNaN(n) ? null : Math.round(n));
         const dayName = (iso) =>
           new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' });
@@ -1184,20 +1083,17 @@
           return 0;
         }
 
-        let latest = null;
         let lastTempShown = null;
 
         function setText(id, v) { document.getElementById(id).textContent = v; }
 
         function animateTemp(to) {
           const el = document.getElementById('wx-temp');
-          const from = 0;
           const start = performance.now();
           function step(now) {
             const t = Math.min(1, (now - start) / COUNT_MS);
             const eased = 1 - Math.pow(1 - t, 3);
-            const value = Math.round(from + (to - from) * eased);
-            el.textContent = value;
+            el.textContent = Math.round(to * eased);
             if (t < 1) requestAnimationFrame(step);
             else el.textContent = to;
           }
@@ -1206,24 +1102,17 @@
 
         function render(data) {
           const cur = data.current || {};
-          const meta = lookup(cur.weather_code);
-
-          setText('wx-icon', meta.icon);
-          setText('wx-desc', meta.desc);
+          setText('wx-desc', desc(cur.weather_code));
 
           const temp = round(cur.temperature_2m);
           if (temp != null) {
             lastTempShown = temp;
-            // Only count up if Weather is the active panel right now.
             const active = document.querySelector('.panel.is-active');
-            if (active && active.dataset.mode === 'weather') {
-              animateTemp(temp);
-            } else {
-              setText('wx-temp', temp);
-            }
+            if (active && active.dataset.mode === 'weather') animateTemp(temp);
+            else setText('wx-temp', temp);
           }
 
-          const v = (n, suf) => (n == null ? '--' : (suf ? n + suf : n));
+          const v = (n) => (n == null ? '--' : n);
           setText('wx-feels',    v(round(cur.apparent_temperature)));
           setText('wx-humidity', v(round(cur.relative_humidity_2m)));
           setText('wx-wind',     v(round(cur.wind_speed_10m)));
@@ -1236,30 +1125,55 @@
           const uv = hourly.uv_index ? hourly.uv_index[hi] : null;
           setText('wx-uv', uv == null ? '--' : uv.toFixed(1));
 
-          const daily = data.daily || {};
+          renderForecast(data.daily || {});
+        }
+
+        function renderForecast(daily) {
           const times = daily.time || [];
           const highs = daily.temperature_2m_max || [];
           const lows  = daily.temperature_2m_min || [];
           const codes = daily.weather_code || [];
-          const root = document.getElementById('wx-forecast');
+          const root  = document.getElementById('wx-forecast');
           root.innerHTML = '';
+
           const start = times.length > 4 ? 1 : 0;
-          for (let i = start; i < start + 4 && i < times.length; i++) {
-            const m = lookup(codes[i]);
+          const end   = Math.min(start + 4, times.length);
+
+          // Compute overall temp range across visible days for the bar scale.
+          let overallLo = Infinity, overallHi = -Infinity;
+          for (let i = start; i < end; i++) {
+            const lo = round(lows[i]);
+            const hi = round(highs[i]);
+            if (lo != null && lo < overallLo) overallLo = lo;
+            if (hi != null && hi > overallHi) overallHi = hi;
+          }
+          const span = Math.max(1, overallHi - overallLo);
+
+          for (let i = start; i < end; i++) {
+            const lo = round(lows[i]);
+            const hi = round(highs[i]);
+            const leftPct  = lo == null ? 0 : Math.max(0, (lo - overallLo) / span * 100);
+            const widthPct = (lo == null || hi == null)
+              ? 100
+              : Math.max(6, (hi - lo) / span * 100);
+
             const card = document.createElement('div');
             card.className = 'forecast';
             card.innerHTML =
               '<span class="forecast__day"></span>' +
-              '<span class="forecast__icon"></span>' +
+              '<span class="forecast__cond"></span>' +
+              '<div class="forecast__bar"><div class="forecast__bar-fill"></div></div>' +
               '<span class="forecast__temps">' +
                 '<span class="forecast__high"></span>°' +
                 '<span class="forecast__low"></span>' +
               '</span>';
             card.querySelector('.forecast__day').textContent  = dayName(times[i]);
-            card.querySelector('.forecast__icon').textContent = m.icon;
-            card.querySelector('.forecast__high').textContent = round(highs[i]);
-            const lo = round(lows[i]);
-            card.querySelector('.forecast__low').textContent  = lo == null ? '' : lo + '°';
+            card.querySelector('.forecast__cond').textContent = desc(codes[i]);
+            const bar = card.querySelector('.forecast__bar-fill');
+            bar.style.left  = leftPct + '%';
+            bar.style.width = widthPct + '%';
+            card.querySelector('.forecast__high').textContent = hi == null ? '--' : hi;
+            card.querySelector('.forecast__low').textContent  = lo == null ? '' : ' ' + lo + '°';
             root.appendChild(card);
           }
         }
@@ -1268,15 +1182,12 @@
           try {
             const res = await fetch('/api/weather', { cache: 'no-store' });
             if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            latest = data;
-            render(data);
+            render(await res.json());
           } catch (err) {
             console.error('weather fetch failed', err);
           }
         }
 
-        // Re-trigger the count-up whenever Weather becomes active.
         window.addEventListener('mode-activated', (e) => {
           if (e.detail && e.detail.id === 'weather' && lastTempShown != null) {
             animateTemp(lastTempShown);
@@ -1288,7 +1199,7 @@
       })();
 
       // ============================================================
-      //   EVENTS (from /api/events, edited via /admin)
+      //   EVENTS (from /api/events; frequency auto-detected for badge)
       // ============================================================
       (function () {
         const REFRESH_MS = 60 * 1000;
@@ -1296,18 +1207,37 @@
         const panel = document.querySelector('.panel--events');
         const listEl = document.getElementById('events-list');
 
+        function detectFrequency(dateStr) {
+          if (!dateStr) return null;
+          const s = dateStr.toLowerCase();
+          if (/\b(weekly|every\s+(mon|tue|wed|thu|fri|sat|sun))/.test(s)) return 'Weekly';
+          if (/\b(monthly|every\s+month)\b/.test(s)) return 'Monthly';
+          if (/\b(daily|every\s+day)\b/.test(s))     return 'Daily';
+          if (/\b(quarterly)\b/.test(s))              return 'Quarterly';
+          if (/\b(annual|annually|yearly|every\s+year)\b/.test(s)) return 'Annual';
+          return null;
+        }
+
         function makeCard(ev) {
           const li = document.createElement('li');
           li.className = 'event-card';
 
-          const metaParts = [];
-          if (ev.date) metaParts.push(ev.date);
-          if (ev.time) metaParts.push(ev.time);
-          if (metaParts.length) {
-            const meta = document.createElement('p');
-            meta.className = 'event-card__meta';
-            meta.textContent = metaParts.join(' · ');
-            li.appendChild(meta);
+          const freq = detectFrequency(ev.date);
+          if (freq) {
+            const badge = document.createElement('span');
+            badge.className = 'event-card__badge';
+            badge.textContent = freq;
+            li.appendChild(badge);
+          }
+
+          const parts = [];
+          if (ev.date) parts.push(ev.date);
+          if (ev.time) parts.push(ev.time);
+          if (parts.length) {
+            const dateEl = document.createElement('p');
+            dateEl.className = 'event-card__date';
+            dateEl.textContent = parts.join(' · ');
+            li.appendChild(dateEl);
           }
 
           const name = document.createElement('h3');
@@ -1315,17 +1245,17 @@
           name.textContent = ev.name || '';
           li.appendChild(name);
 
+          if (ev.description) {
+            const d = document.createElement('p');
+            d.className = 'event-card__desc';
+            d.textContent = ev.description;
+            li.appendChild(d);
+          }
           if (ev.location) {
             const loc = document.createElement('p');
             loc.className = 'event-card__location';
             loc.textContent = ev.location;
             li.appendChild(loc);
-          }
-          if (ev.description) {
-            const desc = document.createElement('p');
-            desc.className = 'event-card__desc';
-            desc.textContent = ev.description;
-            li.appendChild(desc);
           }
           return li;
         }
@@ -1350,12 +1280,10 @@
             render(await res.json());
           } catch (err) {
             console.error('events fetch failed', err);
-            render([]); // fall back to splash
+            render([]);
           }
         }
 
-        // Reload whenever the Events panel becomes active so admin
-        // edits show on the next rotation.
         window.addEventListener('mode-activated', (e) => {
           if (e.detail && e.detail.id === 'events') load();
         });
@@ -1363,7 +1291,6 @@
         load();
         setInterval(load, REFRESH_MS);
       })();
-
     </script>
   </body>
 </html>
