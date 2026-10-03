@@ -1,6 +1,7 @@
 import Script from "next/script";
 
 import { faqs } from "@/data/faqs";
+import { SITE_URL } from "@/data/site-meta";
 
 import { FAQPageClient } from "./FaqPageClient";
 
@@ -13,6 +14,7 @@ export const metadata = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  url: `${SITE_URL}/faq`,
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.question,

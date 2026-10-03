@@ -1,4 +1,10 @@
 // src/data/site-meta.ts
+
+// Canonical public origin of the site. Every absolute URL (metadata, sitemap,
+// robots, JSON-LD) is built from this one value.
+// Change to https://www.liberiatraffic.com at cutover.
+export const SITE_URL = "https://ltmgov.netlify.app";
+
 // Single source of truth for the "last updated" stamp shown on info pages.
 // Bump each entry when the underlying content changes.
 
@@ -27,8 +33,7 @@ export const serviceEstimates = {
     "Most visits take 30 to 45 minutes once you're at the counter",
   "vehicle-inspection":
     "Most inspections take 15 to 20 minutes when the bay is free",
-  "license-plates":
-    "Standard plates leave with you the same day you register",
+  "license-plates": "Standard plates leave with you the same day you register",
 } as const;
 
 export type ServiceId = keyof typeof serviceEstimates;

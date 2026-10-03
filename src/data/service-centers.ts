@@ -27,7 +27,6 @@ export type ServiceCenter = {
   phones: ServiceCenterPhone[];
   email?: string;
   map: {
-    embedUrl: string;
     directionsUrl: string;
   };
 };
@@ -55,8 +54,6 @@ export const serviceCenters: ServiceCenter[] = [
     ],
     email: "Ltm@liberiatraffic.com",
     map: {
-      embedUrl:
-        "https://www.google.com/maps?q=SKD+Boulevard+Monrovia+Liberia&output=embed",
       directionsUrl:
         "https://www.google.com/maps/dir/?api=1&destination=SKD+Boulevard+Monrovia+Liberia",
     },

@@ -1,7 +1,6 @@
-"use client";
-
 import * as React from "react";
-import { motion, useReducedMotion } from "motion/react";
+
+import { cn } from "@/lib/utils";
 
 type FadeInProps = {
   children: React.ReactNode;
@@ -10,25 +9,21 @@ type FadeInProps = {
   delay?: number;
 };
 
-// Subtle scroll-triggered reveal for static content sections only. GPU-only
-// (opacity + translateY), fast, and fully disabled under prefers-reduced-motion
-// so it never costs anything on cheap phones set to reduce motion.
+// Subtle reveal for static content sections only. Pure CSS (see .fade-in in
+// globals.css): no JavaScript, GPU-only (opacity + translateY), scroll-linked
+// where the browser supports it, and fully disabled under
+// prefers-reduced-motion so it never costs anything on cheap phones.
 export function FadeIn({ children, className, delay = 0 }: FadeInProps) {
-  const reduce = useReducedMotion();
-
-  if (reduce) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.2, ease: "easeOut", delay }}
+    <div
+      className={cn("fade-in", className)}
+      style={
+        delay
+          ? ({ "--fade-delay": `${delay}s` } as React.CSSProperties)
+          : undefined
+      }
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

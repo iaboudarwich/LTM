@@ -51,7 +51,9 @@
 
   body {
     @apply bg-ltm-paper text-ltm-ink;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
     line-height: 1.6;
     /* Avoid horizontal page scroll if a child overflows by a hair. */
     overflow-x: hidden;
@@ -59,14 +61,20 @@
 
   /* Headings use the same Public Sans family as body text. They read strong
      through weight and size, not through a decorative typeface. */
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-ltm-black font-semibold;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold text-ltm-black;
     font-family: var(--font-sans);
     line-height: 1.25;
     letter-spacing: -0.01em;
   }
 
-  h1, h2 {
+  h1,
+  h2 {
     @apply font-bold;
   }
 
@@ -124,5 +132,42 @@
     display: block !important;
     margin-bottom: 1.5rem;
     page-break-inside: avoid;
+  }
+}
+
+/* FadeIn: CSS-only reveal. Plays once on load (with an optional stagger via
+   --fade-delay); where scroll-driven animations are supported it is tied to
+   the element entering the viewport instead. Content is never left hidden:
+   `both` fill mode ends at full opacity, and reduced-motion users get no
+   animation at all. */
+@keyframes ltm-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: ltm-fade-in 200ms ease-out var(--fade-delay, 0s) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .fade-in {
+      animation-duration: auto;
+      animation-delay: 0s;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@media print {
+  .fade-in {
+    animation: none;
   }
 }

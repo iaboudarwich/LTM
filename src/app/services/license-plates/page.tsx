@@ -8,6 +8,7 @@ import {
   formatLastUpdated,
   lastUpdated,
   serviceEstimates,
+  SITE_URL,
 } from "@/data/site-meta";
 import { licensePlateCharges } from "@/data/pricing";
 import { formatUsd } from "@/lib/format";
@@ -59,11 +60,13 @@ function PlatesPricing() {
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
+  url: `${SITE_URL}/services/license-plates`,
   name: "License Plates",
   serviceType: "Vehicle license plates",
   provider: {
     "@type": "GovernmentOrganization",
     name: "Liberia Traffic Management",
+    url: SITE_URL,
   },
   areaServed: "Liberia",
   description:

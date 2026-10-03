@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 
-const BASE_URL = "https://www.liberiatraffic.com";
+import { SITE_URL as BASE_URL } from "@/data/site-meta";
 
 // Human labels for each path segment. Keep in sync with the routes under
 // src/app/. Anything missing falls back to a title-cased version of the slug.

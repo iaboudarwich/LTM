@@ -8,19 +8,26 @@ import { cn } from "@/lib/utils";
 
 const INTERVAL_MS = 6000;
 const SWIPE_THRESHOLD_PX = 40;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+const getReducedMotion = () => window.matchMedia(REDUCED_MOTION_QUERY).matches;
+// Prerendered HTML assumes motion is allowed; the client corrects on hydrate.
+const getReducedMotionServer = () => false;
 
 export function HeroCarousel() {
   const [index, setIndex] = React.useState(0);
-  const [reduceMotion, setReduceMotion] = React.useState(false);
+  const reduceMotion = React.useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getReducedMotionServer,
+  );
   const touchStartX = React.useRef<number | null>(null);
-
-  React.useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
 
   React.useEffect(() => {
     if (reduceMotion) return;

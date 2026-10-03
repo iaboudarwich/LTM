@@ -8,6 +8,7 @@ import {
   formatLastUpdated,
   lastUpdated,
   serviceEstimates,
+  SITE_URL,
 } from "@/data/site-meta";
 import { vehicleInspectionCharges } from "@/data/pricing";
 import { formatUsd } from "@/lib/format";
@@ -37,11 +38,13 @@ const INSPECTION_FAQ_IDS = ["q19", "q20", "q21"];
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
+  url: `${SITE_URL}/services/vehicle-inspection`,
   name: "Vehicle Inspection",
   serviceType: "Vehicle inspection",
   provider: {
     "@type": "GovernmentOrganization",
     name: "Liberia Traffic Management",
+    url: SITE_URL,
   },
   areaServed: "Liberia",
   description:

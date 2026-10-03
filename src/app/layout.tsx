@@ -7,22 +7,9 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SITE_URL } from "@/data/site-meta";
 
 import "./globals.css";
-
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-  import("axe-core").then(({ default: axe }) => {
-    axe.run().then((results) => {
-      if (results.violations.length) {
-        console.group("%c ♿ axe violations", "color:red;font-weight:bold");
-        results.violations.forEach((v) =>
-          console.warn(v.description, v.helpUrl, v.nodes),
-        );
-        console.groupEnd();
-      }
-    });
-  });
-}
 
 // Public Sans is the U.S. government's public-service typeface. It is clear,
 // neutral, and highly readable on mobile — the right tone for an official
@@ -50,12 +37,12 @@ export const metadata: Metadata = {
     "license plates Liberia",
   ],
   authors: [{ name: "Liberia Traffic Management" }],
-  metadataBase: new URL("https://www.liberiatraffic.com"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     title: "Liberia Traffic Management",
     description:
       "Official traffic management services for the Republic of Liberia: vehicle registration, driver licensing, inspection, and license plates.",
-    url: "https://www.liberiatraffic.com",
+    url: SITE_URL,
     siteName: "Liberia Traffic Management",
     locale: "en_US",
     type: "website",
@@ -80,6 +67,14 @@ export const metadata: Metadata = {
     follow: true,
   },
   manifest: "/manifest.json",
+  // Listing icons here replaces the auto-generated link for src/app/icon.svg,
+  // so the SVG favicon is declared explicitly alongside the apple-touch-icon.
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
