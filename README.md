@@ -2,112 +2,82 @@
 
 The official website for **Liberia Traffic Management (LTM)**, the only entity authorized by the Government of Liberia to provide vehicle registration, driver licensing, vehicle inspection, license plate, and traffic violation services.
 
-This Next.js application exposes everything a citizen needs to know before walking into the LTM service center on SKD Boulevard, Monrovia: the full price list, FAQs, a road-signs reference, an interactive 45-question driver's license practice test, per-service detail pages, and contact information.
+The site tells a citizen everything they need before walking into the LTM service center on SKD Boulevard, Monrovia: the full price list, FAQs, a road-signs reference, a 45-question driver's license practice test, per-service detail pages, and contact details.
 
-## Tech stack
+## Stack
 
-- **Next.js 14** (App Router) + **TypeScript**
-- **Tailwind CSS** with custom LTM design tokens
-- **shadcn/ui** primitives (button, card, accordion, tabs, sheet, table, input, badge, separator, label, textarea)
-- **lucide-react** icons
-- **Public Sans** loaded via `next/font/google`
-- Statically rendered — every route is prerendered at build time
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Static export** (`output: "export"`): `npm run build` writes plain HTML/CSS/JS to `out/`. There is no server, no serverless functions, and no runtime to patch.
+- **Tailwind CSS 3** with LTM design tokens, **shadcn/ui** primitives (Radix), **lucide-react** icons
+- **Public Sans** via `next/font/google` — downloaded at build time and self-hosted, so the site makes no third-party requests
+- Animations are CSS-only and switched off under `prefers-reduced-motion`
+- Hosted on **Netlify**. Headers (CSP, HSTS, etc.) and cache rules live in `netlify.toml`.
+- Node **22** (see `.nvmrc`; Netlify uses `NODE_VERSION = "22"`)
 
 ## Local development
 
 ```bash
+nvm use          # Node 22
 npm install
-npm run dev
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — the dev server hot-reloads on save.
-
-## Production build
+## Checks and build
 
 ```bash
-npm run build
-npm start
+npm run lint         # ESLint 9 (flat config: eslint.config.mjs)
+npx tsc --noEmit     # type check
+npm run build        # static export → out/
+npm run analyze      # bundle analyzer report
 ```
 
-`npm run build` produces a fully static export-friendly bundle and prints a per-route size table. `npm start` serves the production output on port 3000.
+To preview the production build locally, serve `out/` with any static server, e.g. `npx serve out`.
 
-```bash
-npm run lint   # ESLint via next lint
-```
+## Editing content
+
+All content lives in typed data files under `src/data/`. Edit the file, run `npm run build` to confirm it still compiles, and open a PR — Netlify builds a deploy preview for every PR.
+
+| File | What it controls |
+| --- | --- |
+| `src/data/pricing.ts` | Every fee shown on the site (USD). Fees are set by the Government of Liberia — only change them with written LTM confirmation. |
+| `src/data/services.ts` | The four services (titles, summaries, links). |
+| `src/data/faqs.ts` | Questions & Answers, grouped by category. |
+| `src/data/road-signs.ts` | Road signs reference. Instructions for adding a sign are at the top of the file. |
+| `src/data/practice-test.ts` | The 45 practice test questions and explanations. |
+| `src/data/service-centers.ts` | Service center address, hours, phone numbers, email, directions link. |
+| `src/data/photos.ts` | Hero, gallery, and service page photos. |
+| `src/data/navigation.ts` | Header, footer, and mobile navigation links. |
+| `src/data/site-meta.ts` | `SITE_URL`, the "last updated" dates (also used by the sitemap), and service time estimates. |
+
+When you change pricing, FAQs, road signs, or services, bump the matching date in `lastUpdated` in `src/data/site-meta.ts`.
+
+### Images
+
+- Road sign images: `public/signs/*.webp`. Convert a PNG with `npx sharp -i my-sign.png -o public/signs/ -f webp -q 80`.
+- Photos: `public/images/` (see `docs/images-README.md`).
+- Logo: `public/logo/` (see `docs/logo-README.md`). App icons (`public/icon-*.png`, `public/apple-touch-icon.png`) are rendered from `public/logo/ltm-logo.svg`.
+- Keep `public/` for files the site actually serves. Notes and unused source assets go in `docs/`.
 
 ## Project structure
 
 ```
 src/
-├── app/
-│   ├── layout.tsx                # root layout (FlagStripe / Header / main / Footer / MobileBottomNav / ScrollToTop) + global metadata
-│   ├── page.tsx                  # homepage (hero, trust, services, how-it-works, info, gallery, FAQ teaser, CTA, JSON-LD)
-│   ├── loading.tsx               # global loading spinner
-│   ├── error.tsx                 # client error boundary
-│   ├── not-found.tsx             # 404 page
-│   ├── icon.svg                  # favicon
-│   ├── sitemap.ts                # sitemap.xml generator
-│   ├── globals.css               # Tailwind + base/print styles
-│   ├── services/                 # /services overview + 4 detail routes
-│   ├── pricing/                  # /pricing (server wrapper + client tabs)
-│   ├── faq/                      # /faq (server wrapper + client search/accordion)
-│   ├── road-signs/               # /road-signs (server wrapper + client tabs/sidebar)
-│   ├── practice-test/            # /practice-test (intro/quiz/review) + /practice-test/study
-│   └── contact/                  # /contact page with info cards, map, form
-│
-├── components/
-│   ├── layout/                   # FlagStripe, Header, Footer, CTABanner, MobileBottomNav
-│   ├── ui/                       # shadcn primitives
-│   ├── PageHeader.tsx            # dark page header used by content pages
-│   ├── PriceTable.tsx            # responsive table → mobile cards
-│   ├── ServiceCard.tsx           # homepage service tile
-│   ├── ServiceDetailLayout.tsx   # shared 2-column layout for /services/* detail pages
-│   ├── SignImage.tsx, SignCard.tsx # road-sign image + card rendering
-│   └── HeroCarousel.tsx          # homepage hero slideshow
-│
-├── data/                         # typed source-of-truth content
-│   ├── pricing.ts                # all USD rates (registration, license, towing, etc.)
-│   ├── faqs.ts                   # categorized FAQs
-│   ├── road-signs.ts             # signs reference + Liberia-specific rules
-│   └── practice-test.ts          # 45 quiz questions + study sheet
-│
+├── app/            # routes (App Router), layout + metadata, robots.ts, sitemap.ts, globals.css
+├── components/     # layout (Header, Footer, MobileBottomNav…), ui/ (shadcn), page components
+├── data/           # all editable content (see table above)
+├── hooks/
 └── lib/
-    ├── utils.ts                  # cn() class-name helper
-    └── format.ts                 # formatUsd, highlightMatch
+public/             # served as-is: images, signs, logo, icons, manifest.json
+docs/               # README notes for each asset folder + unused source assets
+netlify.toml        # build settings, security headers, cache rules
 ```
 
-## Routes
+## Domain cutover (ltmgov.netlify.app → www.liberiatraffic.com)
 
-| Path | Description |
-| --- | --- |
-| `/` | Homepage |
-| `/services` | Services overview |
-| `/services/driver-license` | Driver license detail |
-| `/services/vehicle-registration` | Vehicle registration detail |
-| `/services/vehicle-inspection` | Vehicle inspection detail |
-| `/services/license-plates` | License plates detail |
-| `/pricing` | Full price list with searchable tabs |
-| `/road-signs` | Road signs and signals reference |
-| `/practice-test` | Interactive 45-question practice test |
-| `/practice-test/study` | All 45 questions with answers |
-| `/faq` | Questions & Answers |
-| `/contact` | Contact information, map, and form |
+The site currently runs on the staging domain and is kept out of search engines. When moving to the real domain:
 
-## Deployment
-
-The project is built static-export-friendly and is recommended to host on **Netlify**:
-
-1. Connect the GitHub repository to Netlify.
-2. Build command: `npm run build`.
-3. Publish directory: `.next` (Netlify's Next.js plugin handles the rest).
-4. Add a custom domain (`www.liberiatraffic.com`) and configure HTTPS.
-
-Vercel is also a one-click drop-in if preferred.
-
-## TODO — future work
-
-- **Replace placeholder gallery photos** on the homepage with actual photos of the LTM compound.
-- **Add online services** to the services pages once LTM enables digital applications and renewals.
-- **Translate** to additional languages spoken in Liberia.
-- **Branch locator** for when LTM opens additional service centers and authorized delegates.
-- **Replace `app/icon.svg`** with the official LTM brand mark.
+1. In `src/data/site-meta.ts`, change `SITE_URL` to `https://www.liberiatraffic.com`. This updates metadata, Open Graph, canonical URLs, `sitemap.xml`, `robots.txt`, and all JSON-LD in one go.
+2. In `netlify.toml`, delete the `X-Robots-Tag = "noindex"` line (marked `REMOVE AT DOMAIN CUTOVER`).
+3. In Netlify, add `www.liberiatraffic.com` (and the apex) as custom domains, set `www` as primary, and confirm HTTPS is issued.
+4. Merge, let Netlify deploy, then check `https://www.liberiatraffic.com/robots.txt` and `/sitemap.xml` show the new domain.
+5. Re-run the deployed site through [securityheaders.com](https://securityheaders.com) and [MDN Observatory](https://developer.mozilla.org/observatory), and submit the sitemap in Google Search Console.

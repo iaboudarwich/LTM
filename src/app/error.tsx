@@ -14,7 +14,6 @@ export default function ErrorBoundary({
   reset: () => void;
 }) {
   React.useEffect(() => {
-    // eslint-disable-next-line no-console
     console.error(error);
   }, [error]);
 

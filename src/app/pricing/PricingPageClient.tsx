@@ -23,6 +23,7 @@ import {
   vehicleTowingCharges,
 } from "@/data/pricing";
 import { serviceCenters } from "@/data/service-centers";
+import { SITE_URL } from "@/data/site-meta";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatUsd } from "@/lib/format";
 import {
@@ -450,8 +451,8 @@ export function PricingPageClient() {
         </p>
 
         <p className="mt-3 hidden text-xs text-ltm-slate print:block">
-          Printed from www.liberiatraffic.com. For the most current pricing,
-          visit the website.
+          Printed from {SITE_URL.replace(/^https?:\/\//, "")}. For the most
+          current pricing, visit the website.
         </p>
 
         {/* Questions? — Call LTM strip, mobile-prominent */}

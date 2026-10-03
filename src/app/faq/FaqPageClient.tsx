@@ -120,6 +120,9 @@ export function FAQPageClient() {
     if (!hash) return;
     const target = faqs.find((f) => f.id === hash);
     if (!target) return;
+    // The hash only exists in the browser (pages are prerendered), so it has
+    // to be read after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveTab(target.category);
     setOpenItem(target.id);
     const timer = window.setTimeout(() => {

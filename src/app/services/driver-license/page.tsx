@@ -10,6 +10,7 @@ import {
   formatLastUpdated,
   lastUpdated,
   serviceEstimates,
+  SITE_URL,
 } from "@/data/site-meta";
 import { formatUsd } from "@/lib/format";
 
@@ -44,11 +45,13 @@ const columns: PriceColumn[] = [
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
+  url: `${SITE_URL}/services/driver-license`,
   name: "Driver License",
   serviceType: "Driver licensing",
   provider: {
     "@type": "GovernmentOrganization",
     name: "Liberia Traffic Management",
+    url: SITE_URL,
   },
   areaServed: "Liberia",
   description:

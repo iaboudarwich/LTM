@@ -1,10 +1,14 @@
+# Static export: `next build` writes plain files to out/ and Netlify serves
+# them directly. No Next.js runtime, no serverless functions.
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+[build.environment]
+  NODE_VERSION = "22"
 
+# Security headers for every response, HTML pages included (static files are
+# served straight from the CDN, so these rules are the only place they're set).
 [[headers]]
   for = "/*"
   [headers.values]
@@ -16,32 +20,33 @@
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     # Control what info is sent when clicking external links
     Referrer-Policy = "strict-origin-when-cross-origin"
-    # Block XSS in older browsers
-    X-XSS-Protection = "1; mode=block"
-    # Restrict what the browser can load — only from LTM's own domain + Google Maps + Google Fonts
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    # Only LTM's own origin. Fonts are self-hosted by next/font, the map embed
+    # is gone, and the site has no forms. 'unsafe-inline' is required for the
+    # inline scripts/styles Next.js emits in a static export.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
     # Limit browser features LTM doesn't use
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # REMOVE AT DOMAIN CUTOVER — keeps the staging domain out of search results.
+    X-Robots-Tag = "noindex"
+
+# Next.js build output has content hashes in its filenames — cache forever.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Site images keep stable filenames, so they can change in place — cache 1 week.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
 
 [[headers]]
   for = "/signs/*"
   [headers.values]
-    # Cache sign images for 1 year — they never change
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    # Cache photos for 1 year
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=604800"
 
 [[headers]]
   for = "/logo/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    # Next.js static assets — cache forever, they have content hashes
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=604800"

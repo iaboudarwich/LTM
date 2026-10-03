@@ -6,9 +6,10 @@
 // Markings" reference. Descriptions are copied verbatim from the source.
 //
 // HOW TO ADD A NEW SIGN:
-//   1. Put the sign image in:  public/signs/  (PNG, e.g. my-sign.png)
+//   1. Put the sign image in:  public/signs/  (WebP, e.g. my-sign.webp — convert
+//      PNGs with: npx sharp -i in.png -o public/signs/ -f webp -q 80)
 //   2. Add an entry to the `roadSigns` array below.
-//   3. Set `imageUrl` to the file path, e.g.  imageUrl: "/signs/my-sign.png"
+//   3. Set `imageUrl` to the file path, e.g.  imageUrl: "/signs/my-sign.webp"
 //      (leave it as ""  if there is no image — a labeled placeholder shows.)
 //   4. Set `section` to one of the SignSection values (controls which group
 //      the sign appears under). `imageHint` is a short alt-text style hint.
@@ -31,7 +32,7 @@ export type RoadSign = {
   name: string;
   section: SignSection;
   description: string;
-  imageUrl: string; // local path: /signs/<id>.png or "" for fallback
+  imageUrl: string; // local path: /signs/<id>.webp or "" for fallback
   imageHint: string;
   liberiaSpecific?: boolean;
 };
@@ -86,7 +87,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "At a red light, come to a complete stop at the stop line or, if there is no stop line, before entering the intersection or before reaching the crosswalk. Remain stopped as long as the signal is red, unless turns are allowed.",
-    imageUrl: "/signs/red-light.png",
+    imageUrl: "/signs/red-light.webp",
     imageHint: "solid red traffic light",
   },
   {
@@ -95,7 +96,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "You may turn right while the traffic signal displays a red light. Before turning, you must come to a complete stop. Look both ways and yield the right-of-way to pedestrians and other traffic. Be sure to check for less visible vehicles such as motorcycles, bicycles and mopeds. You may not turn right on red if signs are posted at the intersection that read 'No Turn on Red,' or if a red arrow pointing to the right is displayed.",
-    imageUrl: "/signs/red-light.png",
+    imageUrl: "/signs/red-light.webp",
     imageHint: "right turn arrow on red signal",
   },
   {
@@ -104,7 +105,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "You may turn left at a red light if you are on a one-way street and turning left onto another one-way street while the traffic signal displays a red light. Before turning, you must come to a complete stop. Look both ways and yield the right-of-way to pedestrians and other traffic. Be sure to check for less visible vehicles such as motorcycles, bicycles, and mopeds. You may not turn left on red if signs are posted at the intersection that read 'No Turn on Red,' or if a red arrow pointing to the left is displayed.",
-    imageUrl: "/signs/red-light.png",
+    imageUrl: "/signs/red-light.webp",
     imageHint: "left turn arrow on red signal",
   },
   {
@@ -113,7 +114,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "A red arrow means you must stop if you intend to move in the direction of the arrow. You may not proceed in the direction of the arrow as long as the red arrow is displayed, unless signs are posted at the intersection that read 'Right on Red Arrow After Stop' or 'Left on Red Arrow After Stop.' Liberia law prohibits right and left turns at red arrow lights.",
-    imageUrl: "/signs/red-arrow.png",
+    imageUrl: "/signs/red-arrow.webp",
     imageHint: "red left arrow traffic signal",
     liberiaSpecific: true,
   },
@@ -123,7 +124,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "At a flashing red light, come to a complete stop and yield to oncoming vehicles and pedestrians. You may go when the way is clear. At a railroad crossing, you must come to a complete stop even if you don't see a train.",
-    imageUrl: "/signs/flashing-red-light.png",
+    imageUrl: "/signs/flashing-red-light.webp",
     imageHint: "flashing red traffic light",
   },
   {
@@ -132,7 +133,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "At a flashing red arrow, come to a complete stop, yield the right-of-way to vehicles coming from the other direction and pedestrians in the intersection, and proceed in the direction of the arrow when the way is clear.",
-    imageUrl: "/signs/red-arrow.png",
+    imageUrl: "/signs/red-arrow.webp",
     imageHint: "flashing red arrow signal",
   },
   {
@@ -141,7 +142,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "A yellow light or arrow are cautions warning that the light is about to change. If you have not entered the intersection, stop; or, if unsafe to stop, cautiously go through it. If you are already in the intersection, go through it cautiously. Do not speed up to beat the light.",
-    imageUrl: "/signs/yellow-light.png",
+    imageUrl: "/signs/yellow-light.webp",
     imageHint: "solid yellow traffic light",
   },
   {
@@ -150,7 +151,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "A flashing yellow light means slow down and proceed with caution. Flashing yellow lights are at locations with higher-than-normal hazardous conditions.",
-    imageUrl: "/signs/flashing-yellow-light.png",
+    imageUrl: "/signs/flashing-yellow-light.webp",
     imageHint: "flashing yellow traffic light",
   },
   {
@@ -159,7 +160,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "At a flashing yellow arrow, you may turn in the direction of the arrow, if the way is clear. Yield the right-of-way to vehicles coming from the other direction and pedestrians in the intersection. Be sure to check for less visible vehicles such as motorcycles, bicycles, and mopeds. If a traffic light changes from red to flashing yellow arrow while a pedestrian is in the intersection, allow the pedestrian to cross the street before turning.",
-    imageUrl: "/signs/yellow-light.png",
+    imageUrl: "/signs/yellow-light.webp",
     imageHint: "flashing yellow arrow signal",
   },
   {
@@ -168,7 +169,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "At a green light, you may go if the way is clear. At a green arrow, you may go in the direction of the arrow if the way is clear. If you are turning without a green arrow, you must yield the right-of-way to vehicles coming from the other direction and pedestrians in the intersection. Be sure to check for less visible vehicles such as motorcycles, bicycles, and mopeds. If a traffic light changes from red to green while a pedestrian is in the street, allow the pedestrian to cross the street before turning.",
-    imageUrl: "/signs/green-light.png",
+    imageUrl: "/signs/green-light.webp",
     imageHint: "solid green traffic light",
   },
   {
@@ -177,7 +178,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "When traffic signals are not working because of a power outage or other problem and not displaying any lights, you are required to stop, proceeding through the intersection as though it were an all-way stop. This does not apply if a law enforcement officer or other authorized person is directing traffic at the intersection, or if portable stop signs are in use.",
-    imageUrl: "/signs/out-of-service-signals.png",
+    imageUrl: "/signs/out-of-service-signals.webp",
     imageHint: "dark traffic signal",
   },
   {
@@ -185,7 +186,7 @@ export const roadSigns: RoadSign[] = [
     name: "Lane Use Signal: Red X",
     section: "traffic-signals",
     description: "Never drive in a lane marked with a red X signal.",
-    imageUrl: "/signs/lane-use-red-x.png",
+    imageUrl: "/signs/lane-use-red-x.webp",
     imageHint: "red X overhead lane signal",
   },
   {
@@ -194,7 +195,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "These signals mean that you should move out of the lane as soon as safely possible.",
-    imageUrl: "/signs/lane-use-yellow-x.png",
+    imageUrl: "/signs/lane-use-yellow-x.webp",
     imageHint: "yellow X overhead lane signal",
   },
   {
@@ -203,7 +204,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "You are permitted to drive in a lane marked with a green arrow signal.",
-    imageUrl: "/signs/lane-use-green-arrow.png",
+    imageUrl: "/signs/lane-use-green-arrow.webp",
     imageHint: "green down arrow overhead lane signal",
   },
   {
@@ -212,7 +213,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "You are permitted to enter in a lane marked with a one-way or two-way arrow only to turn in the direction of the arrow.",
-    imageUrl: "/signs/lane-use-left-turn-arrow.png",
+    imageUrl: "/signs/lane-use-left-turn-arrow.webp",
     imageHint: "white left turn arrow lane signal",
   },
   {
@@ -221,7 +222,7 @@ export const roadSigns: RoadSign[] = [
     section: "traffic-signals",
     description:
       "PHBs appear over intersections without stoplights and alert drivers when pedestrians are at a crosswalk. One yellow light at the bottom flashes when a pedestrian activates the PHB. Next, the yellow light turns solid to alert drivers to prepare to stop. Then, the top two red lights on the PHB turn solid while a walk signal appears at the crosswalk, and drivers must stop. Lastly, while the walk signal counts down for the pedestrians, the PHB's two red lights alternate flashing, telling the driver that if the crosswalk is now clear, they may proceed with caution.",
-    imageUrl: "/signs/pedestrian-hybrid-beacon.png",
+    imageUrl: "/signs/pedestrian-hybrid-beacon.webp",
     imageHint: "pedestrian hybrid beacon assembly",
   },
 
@@ -232,7 +233,7 @@ export const roadSigns: RoadSign[] = [
     section: "sign-shapes",
     description:
       "This eight-sided shape always means stop. You must come to a complete stop at the sign, stop line, pedestrian crosswalk or curb. Wait for any vehicle or pedestrian to clear the way. At some intersections you'll find a sign beneath the stop sign that reads 'All Way' or '4 Way.' At these intersections all vehicles on all roads leading into the intersection must stop. If you get to the intersection at the same time as other vehicles, the driver on the left must yield to the driver on the right.",
-    imageUrl: "/signs/shape-octagon.png",
+    imageUrl: "/signs/shape-octagon.webp",
     imageHint: "red octagonal stop sign",
   },
   {
@@ -241,7 +242,7 @@ export const roadSigns: RoadSign[] = [
     section: "sign-shapes",
     description:
       "You must slow down as you come to the intersection. Be prepared to stop. Let any vehicles, pedestrians or bicyclists safely pass before you proceed.",
-    imageUrl: "/signs/shape-triangle.png",
+    imageUrl: "/signs/shape-triangle.webp",
     imageHint: "red and white inverted triangle yield sign",
   },
   {
@@ -250,7 +251,7 @@ export const roadSigns: RoadSign[] = [
     section: "sign-shapes",
     description:
       "Vertical signs generally give instructions or tell you the law. Horizontal signs may give directions or information.",
-    imageUrl: "/signs/shape-rectangle.png",
+    imageUrl: "/signs/shape-rectangle.webp",
     imageHint: "white and green rectangular signs",
   },
   {
@@ -259,7 +260,7 @@ export const roadSigns: RoadSign[] = [
     section: "sign-shapes",
     description:
       "These signs warn you of special conditions or hazards ahead. Slow down and drive with caution. Be ready to stop.",
-    imageUrl: "/signs/shape-diamond.png",
+    imageUrl: "/signs/shape-diamond.webp",
     imageHint: "yellow diamond warning sign",
   },
   {
@@ -268,7 +269,7 @@ export const roadSigns: RoadSign[] = [
     section: "sign-shapes",
     description:
       "This five-sided shape marks school zones and warns you about school crossings. Two signs may be used together to show the actual location of the crosswalk.",
-    imageUrl: "/signs/shape-pentagon.png",
+    imageUrl: "/signs/shape-pentagon.webp",
     imageHint: "yellow-green pentagon school crossing",
   },
 
@@ -279,7 +280,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "These signs tell you the maximum legal speed that you may drive on the road where the sign is posted when weather conditions are good. Some roads have electronic speed limit signs that change based on weather or traffic conditions. During rain, snow and ice, you may receive a ticket for driving too fast for the conditions even if you are driving at or less than the posted speed limit.",
-    imageUrl: "/signs/speed-limit.png",
+    imageUrl: "/signs/speed-limit.webp",
     imageHint: "speed limit 55 sign",
   },
   {
@@ -288,7 +289,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "These signs mean you cannot drive in that direction. If you drive past these signs you are going in the wrong direction and could get into a head-on crash with vehicles headed your way. Immediately slow down, pull over, and cautiously turn around.",
-    imageUrl: "/signs/do-not-enter.png",
+    imageUrl: "/signs/do-not-enter.webp",
     imageHint: "DO NOT ENTER and WRONG WAY signs",
   },
   {
@@ -296,7 +297,7 @@ export const roadSigns: RoadSign[] = [
     name: "One Way",
     section: "regulatory",
     description: "Traffic flows only in the direction of the arrow.",
-    imageUrl: "/signs/one-way.png",
+    imageUrl: "/signs/one-way.webp",
     imageHint: "ONE WAY arrow sign",
   },
   {
@@ -305,7 +306,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "Left turns are against the law. In Liberia, U-turns are considered as two left turns and are illegal if this sign is posted.",
-    imageUrl: "/signs/no-left-turn.png",
+    imageUrl: "/signs/no-left-turn.webp",
     imageHint: "no left turn sign with red slash",
     liberiaSpecific: true,
   },
@@ -315,7 +316,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "Right turns are illegal. Do not make a right turn when you see this sign.",
-    imageUrl: "/signs/no-right-turn.png",
+    imageUrl: "/signs/no-right-turn.webp",
     imageHint: "no right turn sign with red slash",
   },
   {
@@ -324,7 +325,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "U-turns are illegal. Do not make a U-turn when you see this sign.",
-    imageUrl: "/signs/no-u-turn.png",
+    imageUrl: "/signs/no-u-turn.webp",
     imageHint: "no U-turn sign with red slash",
   },
   {
@@ -333,7 +334,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "You may not turn on the red light. Wait for the signal to turn green.",
-    imageUrl: "/signs/no-turn-on-red.png",
+    imageUrl: "/signs/no-turn-on-red.webp",
     imageHint: "NO TURN ON RED text sign",
   },
   {
@@ -342,7 +343,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "This sign marks the beginning of a no passing zone. You may not pass cars ahead of you in your lane, even if the way is clear.",
-    imageUrl: "/signs/do-not-pass.png",
+    imageUrl: "/signs/do-not-pass.webp",
     imageHint: "DO NOT PASS rectangle sign",
   },
   {
@@ -351,7 +352,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "This sign is used with a traffic signal. It tells you that the traffic turning left at a green light does not have the right-of-way and must yield to traffic coming from the other direction. Stop and look for oncoming traffic, then proceed with caution.",
-    imageUrl: "/signs/left-turn-yield-on-green.png",
+    imageUrl: "/signs/left-turn-yield-on-green.webp",
     imageHint: "LEFT TURN YIELD ON GREEN sign with green dot",
   },
   {
@@ -360,7 +361,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "A traffic island, median or barrier is ahead. Keep to the side indicated by the arrow.",
-    imageUrl: "/signs/keep-right.png",
+    imageUrl: "/signs/keep-right.webp",
     imageHint: "keep right arrow sign",
   },
   {
@@ -369,7 +370,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "These signs are used where turns are required or where special turning movements are permitted for specific lanes. Traffic in the lane must turn in the direction of the arrow.",
-    imageUrl: "/signs/lane-use-control.png",
+    imageUrl: "/signs/lane-use-control.webp",
     imageHint: "ONLY left and combination turn arrow signs",
   },
   {
@@ -378,7 +379,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "These signs indicate lanes reserved for buses and vehicles with a driver and one or more passengers as specified on the sign.",
-    imageUrl: "/signs/hov.png",
+    imageUrl: "/signs/hov.webp",
     imageHint: "HOV 2+ lane sign",
   },
   {
@@ -387,7 +388,7 @@ export const roadSigns: RoadSign[] = [
     section: "regulatory",
     description:
       "Parking spaces marked with these signs are reserved for people with disabled parking permits.",
-    imageUrl: "/signs/disabled-parking.png",
+    imageUrl: "/signs/disabled-parking.webp",
     imageHint: "blue and white disabled parking sign",
   },
 
@@ -398,7 +399,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "This sign indicates the maximum safe speed for a highway exit.",
-    imageUrl: "/signs/advisory-speed.png",
+    imageUrl: "/signs/advisory-speed.webp",
     imageHint: "exit advisory speed 25 MPH sign",
   },
   {
@@ -407,7 +408,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Prepare to reduce your speed; the speed limit is changing ahead.",
-    imageUrl: "/signs/reduced-speed-ahead.png",
+    imageUrl: "/signs/reduced-speed-ahead.webp",
     imageHint: "reduced speed limit ahead diamond sign",
   },
   {
@@ -416,7 +417,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "A stop sign or yield sign is ahead. Slow down and be ready to stop.",
-    imageUrl: "/signs/stop-yield-ahead.png",
+    imageUrl: "/signs/stop-yield-ahead.webp",
     imageHint: "stop ahead and yield ahead diamond signs",
   },
   {
@@ -425,7 +426,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "There is a traffic light signal ahead on the road you are on. Be ready to stop.",
-    imageUrl: "/signs/signal-ahead.png",
+    imageUrl: "/signs/signal-ahead.webp",
     imageHint: "diamond sign with traffic light symbol",
   },
   {
@@ -434,7 +435,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "This sign marks the beginning of a no passing zone. You may not pass cars ahead of you in your lane, even if the way is clear.",
-    imageUrl: "/signs/no-passing-zone.png",
+    imageUrl: "/signs/no-passing-zone.webp",
     imageHint: "yellow pennant NO PASSING ZONE sign",
   },
   {
@@ -443,7 +444,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Two lanes of traffic moving in the same direction are about to become one. Drivers in both lanes are responsible for merging safely. Traffic from another road may be entering the road you are on. Be prepared for vehicles to move into your lane.",
-    imageUrl: "/signs/merge.png",
+    imageUrl: "/signs/merge.webp",
     imageHint: "merge diamond sign with merging arrows",
   },
   {
@@ -452,7 +453,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The right lane ends soon. Drivers in the right lane must merge left when space opens up. Drivers in the left lane should allow other vehicles to merge smoothly.",
-    imageUrl: "/signs/lane-reduction.png",
+    imageUrl: "/signs/lane-reduction.webp",
     imageHint: "lane reduction diamond sign",
   },
   {
@@ -461,7 +462,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The highway ahead is split into two separate roadways by a median or divider and each roadway is one-way. Keep right. The road will soon become two-way traffic divided by a median or barrier.",
-    imageUrl: "/signs/divided-highway-begins.png",
+    imageUrl: "/signs/divided-highway-begins.webp",
     imageHint: "divided highway begins diamond sign",
   },
   {
@@ -470,7 +471,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The highway ahead no longer has a median or divider. Traffic goes in both directions. Keep right.",
-    imageUrl: "/signs/divided-highway-ends.png",
+    imageUrl: "/signs/divided-highway-ends.webp",
     imageHint: "divided highway ends diamond sign",
   },
   {
@@ -479,7 +480,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "When pavement is wet, reduce your speed. Do not brake hard or change direction suddenly. Increase the distance between your car and the one ahead of you. The road ahead becomes unusually slippery in wet weather. Drive carefully in these conditions.",
-    imageUrl: "/signs/slippery-when-wet.png",
+    imageUrl: "/signs/slippery-when-wet.webp",
     imageHint: "slippery when wet diamond sign",
   },
   {
@@ -488,7 +489,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The overpass ahead has a low clearance. Do not proceed if your vehicle is taller than the height shown on the sign.",
-    imageUrl: "/signs/low-clearance.png",
+    imageUrl: "/signs/low-clearance.webp",
     imageHint: "low clearance diamond sign with height",
   },
   {
@@ -496,7 +497,7 @@ export const roadSigns: RoadSign[] = [
     name: "Hill",
     section: "warning",
     description: "A steep grade is ahead. Check your brakes.",
-    imageUrl: "/signs/hill.png",
+    imageUrl: "/signs/hill.webp",
     imageHint: "hill diamond warning sign",
   },
   {
@@ -505,7 +506,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Deer cross the roadway in this area. Slow down, be alert and be ready to stop.",
-    imageUrl: "/signs/deer-crossing.png",
+    imageUrl: "/signs/deer-crossing.webp",
     imageHint: "deer crossing diamond sign",
   },
   {
@@ -514,7 +515,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Regularly travel in this area. Slow down and don't use the horn. State law requires motorists to pass with at least three feet of clearance when the way is clear.",
-    imageUrl: "/signs/horse-drawn-buggies.png",
+    imageUrl: "/signs/horse-drawn-buggies.webp",
     imageHint: "horse-drawn buggy diamond sign",
   },
   {
@@ -523,7 +524,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Regularly travel in this area. Be ready to slow down or stop. Only pass when the way is clear.",
-    imageUrl: "/signs/tractors-farm-equipment.png",
+    imageUrl: "/signs/tractors-farm-equipment.webp",
     imageHint: "tractor warning diamond sign",
   },
   {
@@ -532,7 +533,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Watch for people who are walking, riding bicycles or other devices entering a crosswalk or crossing your path. Slow down and be prepared to stop. A second sign with an arrow may show the actual location of the crosswalk.",
-    imageUrl: "/signs/pedestrian-crossing.png",
+    imageUrl: "/signs/pedestrian-crossing.webp",
     imageHint: "yellow-green pedestrian crossing pentagon",
   },
   {
@@ -541,7 +542,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Bicycles regularly cross or ride beside traffic in this area. Drive with caution. A second sign with an arrow may show the actual location of the bike crossing.",
-    imageUrl: "/signs/bicycle-crossing.png",
+    imageUrl: "/signs/bicycle-crossing.webp",
     imageHint: "yellow-green bicycle crossing diamond",
   },
   {
@@ -550,7 +551,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Watch out for children crossing the street or playing. Be ready to slow down or stop at school zones and surrounding areas. Obey the speed limit and signals from crossing guards. A second sign with an arrow may show the actual location of the sidewalk. NOTE: This sign is being transitioned to neon green. This transition will take effect within the next 10 years.",
-    imageUrl: "/signs/school-zone.png",
+    imageUrl: "/signs/school-zone.webp",
     imageHint: "yellow-green pentagon school crossing sign",
     liberiaSpecific: true,
   },
@@ -560,7 +561,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Slow down. Open joints on bridges or ramps could cause a motorcyclist to lose control of the motorcycle.",
-    imageUrl: "/signs/open-joints.png",
+    imageUrl: "/signs/open-joints.webp",
     imageHint: "open joints on bridge sign",
   },
   {
@@ -569,7 +570,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "This sign is used when a joint across lanes creates a bump or is wide enough to cause loss of traction in wet weather.",
-    imageUrl: "/signs/expansion-joints.png",
+    imageUrl: "/signs/expansion-joints.webp",
     imageHint: "expansion joints sign",
   },
   {
@@ -578,7 +579,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "An intersection is ahead. Be alert for vehicles entering the road on which you are traveling. Another road crosses the road you are on. Watch carefully for traffic crossing your path.",
-    imageUrl: "/signs/intersection.png",
+    imageUrl: "/signs/intersection.webp",
     imageHint: "cross intersection diamond sign",
   },
   {
@@ -586,7 +587,7 @@ export const roadSigns: RoadSign[] = [
     name: "Y Intersection",
     section: "warning",
     description: "You must bear either right or left ahead.",
-    imageUrl: "/signs/y-intersection.png",
+    imageUrl: "/signs/y-intersection.webp",
     imageHint: "Y intersection diamond sign",
   },
   {
@@ -595,7 +596,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The roadway you are traveling on ends ahead at a stop sign. You must turn right or left after yielding to oncoming traffic and pedestrians.",
-    imageUrl: "/signs/t-intersection.png",
+    imageUrl: "/signs/t-intersection.webp",
     imageHint: "T intersection diamond sign",
   },
   {
@@ -604,7 +605,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "These signs indicate a circular intersection with an island in the center is ahead. Also called traffic circles, these intersections may have one or more lanes. Entering traffic must yield the right-of-way to traffic already in the circle and travel in a counter clockwise direction.",
-    imageUrl: "/signs/roundabout.png",
+    imageUrl: "/signs/roundabout.webp",
     imageHint: "roundabout diamond sign with circular arrows",
   },
   {
@@ -613,7 +614,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The road ahead curves right and a side road joins from the left within the curve. Be alert for vehicles entering the roadway you are traveling on.",
-    imageUrl: "/signs/right-curve-side-road.png",
+    imageUrl: "/signs/right-curve-side-road.webp",
     imageHint: "right curve with side road diamond sign",
   },
   {
@@ -622,7 +623,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Slow down and be prepared for a sharp right turn in the road ahead.",
-    imageUrl: "/signs/sharp-right-turn.png",
+    imageUrl: "/signs/sharp-right-turn.webp",
     imageHint: "sharp right turn diamond sign with right angle arrow",
   },
   {
@@ -631,7 +632,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Slow down and be prepared for the road ahead to turn sharply right, then left.",
-    imageUrl: "/signs/sharp-right-left-turns.png",
+    imageUrl: "/signs/sharp-right-left-turns.webp",
     imageHint: "sharp right and left turns zigzag diamond sign",
   },
   {
@@ -639,7 +640,7 @@ export const roadSigns: RoadSign[] = [
     name: "Right and Left Curves",
     section: "warning",
     description: "The road ahead curves right, then left. Slow down.",
-    imageUrl: "/signs/right-and-left-curves.png",
+    imageUrl: "/signs/right-and-left-curves.webp",
     imageHint: "right and left curves S-shape diamond sign",
   },
   {
@@ -648,7 +649,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The road ahead curves right. Slow down to the safe speed indicated. A curve sign is used to warn of a curve where the recommended speed is less than the posted speed limit for the highway.",
-    imageUrl: "/signs/right-curve-safe-speed.png",
+    imageUrl: "/signs/right-curve-safe-speed.webp",
     imageHint: "curve sign with 35 MPH speed advisory",
   },
   {
@@ -657,7 +658,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "The road ahead winds with a series of turns or curves. On all curves, slow down for better control.",
-    imageUrl: "/signs/winding-road.png",
+    imageUrl: "/signs/winding-road.webp",
     imageHint: "winding road S-curves diamond sign",
   },
   {
@@ -666,7 +667,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "A steep slope where the railroad tracks cross the road may cause the bottom of low vehicles to get caught or drag on the tracks.",
-    imageUrl: "/signs/low-ground-railroad.png",
+    imageUrl: "/signs/low-ground-railroad.webp",
     imageHint: "low ground railroad crossing diamond sign",
   },
   {
@@ -675,7 +676,7 @@ export const roadSigns: RoadSign[] = [
     section: "warning",
     description:
       "Traffic from another road will be entering the road you are on. No merging is necessary because a lane has been added.",
-    imageUrl: "/signs/added-lane.png",
+    imageUrl: "/signs/added-lane.webp",
     imageHint: "added lane diamond sign",
   },
 
@@ -686,7 +687,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "The advance warning sign tells you that you are nearing a railroad crossing. Be prepared to stop. Advance warning signs are placed before a railroad crossing. These signs warn you to look, listen, slow down and be prepared to stop for trains or any vehicles using the rails.",
-    imageUrl: "/signs/railroad-crossing-advance.png",
+    imageUrl: "/signs/railroad-crossing-advance.webp",
     imageHint: "yellow circular railroad crossing advance warning",
   },
   {
@@ -695,7 +696,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "This sign is a warning of a railroad crossing. Look, listen, slow down and be prepared to stop for trains or any vehicles using the rails. Trains may be approaching from either direction. If there is more than one track, trains may be approaching from either direction on either track.",
-    imageUrl: "/signs/railroad-crossbuck.png",
+    imageUrl: "/signs/railroad-crossbuck.webp",
     imageHint: "white X railroad crossbuck sign",
   },
   {
@@ -704,7 +705,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Flashing lights may be used with crossbuck signs. Always stop when the light begins to flash and be alert for approaching trains. Do not proceed until all trains or any other vehicles using the rails have passed, the tracks are clear, and the lights are no longer flashing. Be especially alert at multi-track crossings because a second train could be approaching from the opposite direction.",
-    imageUrl: "/signs/railroad-crossbuck-flashing.png",
+    imageUrl: "/signs/railroad-crossbuck-flashing.webp",
     imageHint: "railroad crossbuck with red flashing lights",
   },
   {
@@ -713,7 +714,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Gates are used with flashing light signals at some crossings. Stop when the lights begin to flash and before the gate lowers. Remain stopped until the gates are raised and the lights stop flashing. Do not attempt to drive around the lowered gate.",
-    imageUrl: "/signs/crossbuck-flashing-gate.png",
+    imageUrl: "/signs/crossbuck-flashing-gate.webp",
     imageHint: "railroad crossing with gate arm",
   },
   {
@@ -722,7 +723,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "These signs are used when certain road conditions, such as loose gravel or road construction, affect the roadway surface and create potentially difficult conditions for motorists, especially motorcyclists.",
-    imageUrl: "/signs/rough-road-bump.png",
+    imageUrl: "/signs/rough-road-bump.webp",
     imageHint: "orange ROUGH ROAD, BUMP, and UNEVEN LANES diamond signs",
   },
   {
@@ -731,7 +732,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "These signs indicate a change in the traffic pattern or route ahead. Slow down. Unusual or potentially dangerous conditions are ahead.",
-    imageUrl: "/signs/road-construction-detour.png",
+    imageUrl: "/signs/road-construction-detour.webp",
     imageHint: "orange ROAD WORK AHEAD diamond and DETOUR rectangle signs",
   },
   {
@@ -740,7 +741,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Large flashing arrow boards or flashing message signs in work zones direct drivers to proceed into different traffic lanes and inform them that part of the road ahead is closed.",
-    imageUrl: "/signs/flashing-arrow-board.png",
+    imageUrl: "/signs/flashing-arrow-board.webp",
     imageHint: "yellow flashing arrow board",
   },
   {
@@ -749,7 +750,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Flaggers are highway workers who normally wear orange or yellow vests, or yellow-green shirts or jackets. They use STOP/SLOW paddles or red flags to stop or direct traffic through the work zone, and to let other workers or construction vehicles cross the road.",
-    imageUrl: "/signs/flaggers.png",
+    imageUrl: "/signs/flaggers.webp",
     imageHint: "highway flagger with stop paddle illustration",
   },
   {
@@ -758,7 +759,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "This sign indicates that automated photo enforcement is in place for speeding in a work zone. Always obey the posted speed limit in a work zone.",
-    imageUrl: "/signs/photo-speed-enforcement.png",
+    imageUrl: "/signs/photo-speed-enforcement.webp",
     imageHint: "WORK ZONE SPEED PHOTO ENFORCED sign",
   },
   {
@@ -767,7 +768,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Barricades, vertical signs, concrete barriers, drums and cones are the most common devices used to guide drivers safely through work zones. When driving near the devices, keep your vehicle in the middle of the lane and obey the posted speed limit. As you leave the work zone, stay in your lane and maintain your speed. Don't change lanes until you are completely clear of the work zone.",
-    imageUrl: "/signs/traffic-control-devices.png",
+    imageUrl: "/signs/traffic-control-devices.webp",
     imageHint: "orange and white barricade with cone and drum",
   },
   {
@@ -776,7 +777,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Rumble Strips Ahead signs warn motorists of black or orange strips placed across the travel lanes in advance of work zones, including a flagger or lane closure. Rumble strips should be slowly driven over, not swerved around.",
-    imageUrl: "/signs/rumble-strips-ahead.png",
+    imageUrl: "/signs/rumble-strips-ahead.webp",
     imageHint: "orange diamond RUMBLE STRIPS AHEAD sign",
   },
   {
@@ -785,7 +786,7 @@ export const roadSigns: RoadSign[] = [
     section: "work-zone",
     description:
       "Vehicles traveling at 25 MPH or less, such as farm equipment, horse-drawn vehicles or highway work vehicles, must display these signs when using a public highway. Be prepared to adjust your speed or position when you see a vehicle with one of these signs.",
-    imageUrl: "/signs/slow-moving-vehicles.png",
+    imageUrl: "/signs/slow-moving-vehicles.webp",
     imageHint: "orange triangle slow moving vehicle emblem",
   },
 
@@ -796,7 +797,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Red markings are generally not used; but, some communities do use red curbs to indicate no parking zones.",
-    imageUrl: "/signs/red-markings.png",
+    imageUrl: "/signs/red-markings.webp",
     imageHint: "red painted curb",
   },
   {
@@ -805,7 +806,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Red reflectors on the pavement show areas not to be entered or used. They are positioned on the road surface so that only traffic flowing in the wrong direction would observe them.",
-    imageUrl: "/signs/red-reflectors.png",
+    imageUrl: "/signs/red-reflectors.webp",
     imageHint: "red pavement reflectors",
   },
   {
@@ -814,7 +815,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Yellow center lines mean two-way traffic, flowing in opposite directions.",
-    imageUrl: "/signs/broken-yellow-center.png",
+    imageUrl: "/signs/broken-yellow-center.webp",
     imageHint: "yellow center line on road",
   },
   {
@@ -823,7 +824,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Broken yellow center lines mean that passing on the left is allowed in either direction when the way ahead is clear.",
-    imageUrl: "/signs/broken-yellow-center.png",
+    imageUrl: "/signs/broken-yellow-center.webp",
     imageHint: "broken yellow center line",
   },
   {
@@ -832,7 +833,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "A broken yellow line alongside a solid yellow line means that passing is allowed from the side of the broken line, but not from the side of the solid line. Vehicles on the solid yellow line side may only cross the line to pass pedestrians, bicyclists, and riders of scooters or skateboards, when the opposite lane is clear and you can pass safely.",
-    imageUrl: "/signs/broken-yellow-solid-yellow.png",
+    imageUrl: "/signs/broken-yellow-solid-yellow.webp",
     imageHint: "broken yellow line alongside solid yellow line",
   },
   {
@@ -841,7 +842,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Double solid yellow lines mark the center of the road and separate traffic traveling in two different directions. Passing is not allowed in either direction. You may not cross the lines unless you are making a left turn or passing pedestrians, bicyclists, and riders of scooters or skateboards, when the opposite lane is clear and you can pass safely.",
-    imageUrl: "/signs/double-solid-yellow.png",
+    imageUrl: "/signs/double-solid-yellow.webp",
     imageHint: "double solid yellow lines",
   },
   {
@@ -850,7 +851,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Broken white lines separate lanes of traffic going in the same direction. You may change lanes with caution.",
-    imageUrl: "/signs/broken-white-lines.png",
+    imageUrl: "/signs/broken-white-lines.webp",
     imageHint: "broken white lane lines",
   },
   {
@@ -859,7 +860,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Dotted white lines are actually small rectangles in a series where each is closely spaced to the next. They are used to show lane assignment in intersections and interchanges where there might otherwise be a tendency to drift out of a lane or an area of intended use. Often they are used to guide two turning lanes through the intersection. Dotted white lines are also used to denote the opening of a turn lane at an intersection and entrance/exit lanes at interchanges.",
-    imageUrl: "/signs/broken-white-lines.png",
+    imageUrl: "/signs/broken-white-lines.webp",
     imageHint: "dotted white lane line at intersection",
   },
   {
@@ -868,7 +869,7 @@ export const roadSigns: RoadSign[] = [
     section: "pavement-markings",
     description:
       "Many two-lane roads in Liberia do not have lane markings to separate the lanes. On an unmarked two-lane road, you may pass a slow moving vehicle on the left side if there are no signs prohibiting passing. Make sure that the way is clear.",
-    imageUrl: "/signs/unmarked-two-lane-roads.png",
+    imageUrl: "/signs/unmarked-two-lane-roads.webp",
     imageHint: "unmarked Liberian rural road",
     liberiaSpecific: true,
   },

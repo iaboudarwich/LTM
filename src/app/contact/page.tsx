@@ -6,6 +6,7 @@ import { CallLtm } from "@/components/CallLtm";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { contactPhoto } from "@/data/photos";
+import { SITE_URL } from "@/data/site-meta";
 import { serviceCenters, type ServiceCenter } from "@/data/service-centers";
 
 export const metadata = {
@@ -20,7 +21,7 @@ function organizationJsonLd(center: ServiceCenter) {
     "@type": "GovernmentOrganization",
     name: "Liberia Traffic Management",
     alternateName: "LTM",
-    url: "https://www.liberiatraffic.com",
+    url: SITE_URL,
     telephone: center.phones.map((p) => p.dial),
     email: center.email,
     address: {
@@ -38,17 +39,6 @@ function ServiceCenterCard({ center }: { center: ServiceCenter }) {
   const primaryPhone = center.phones[0];
   return (
     <article className="overflow-hidden rounded-lg border border-ltm-border bg-white">
-      <div className="aspect-[16/9] w-full bg-ltm-stone">
-        <iframe
-          title={`Map to LTM ${center.county}`}
-          src={center.map.embedUrl}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-          className="h-full w-full border-0"
-        />
-      </div>
-
       <div className="grid gap-8 p-6 sm:p-8 md:grid-cols-2">
         <div>
           <h2 className="font-serif text-2xl text-ltm-black">
@@ -78,12 +68,7 @@ function ServiceCenterCard({ center }: { center: ServiceCenter }) {
               <span className="block">
                 {center.address.locality}, {center.address.country}
               </span>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="mt-3 w-full sm:w-auto"
-              >
+              <Button asChild size="lg" className="mt-4 w-full sm:w-auto">
                 <Link
                   href={center.map.directionsUrl}
                   target="_blank"
